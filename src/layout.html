@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{title}}</title>
+  <meta name="description" content="{{description}}">
+  <link rel="canonical" href="{{canonical}}">
+  <meta name="robots" content="{{robots}}">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121b18" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="{{ogType}}">
+  <meta property="og:site_name" content="{{site.name}}">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:url" content="{{canonical}}">
+  <meta property="og:image" content="{{site.url}}/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="{{css}}">
+  {{adsense}}
+  {{jsonld}}
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera">
+    <div class="contenedor cabecera-in">
+      <a class="logo" href="/" aria-label="{{site.name}}, inicio">
+        <svg class="logo-marca" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="currentColor"/><path d="M9 17.5l4.5 4.5L23 11" fill="none" stroke="var(--marca-tinta)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Al<b>Neto</b></span>
+      </a>
+      <nav class="nav" id="menu" aria-label="Principal">
+        <a class="nav-link" href="/calculadora-sueldo-neto/">Sueldo neto</a>
+        <a class="nav-link" href="/calculadora-finiquito/">Finiquito</a>
+        <a class="nav-link" href="/calculadora-paro/">Paro</a>
+        <a class="nav-link" href="/subida-pensiones-2027/">Pensiones 2027</a>
+        <a class="nav-link" href="/guias/">Guías</a>
+      </nav>
+      <a class="boton boton-primario boton-pequeno cabecera-cta" href="/calculadora-sueldo-neto/">Calcular mi sueldo</a>
+      <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir el menú">
+        <svg class="icono-abrir" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg class="icono-cerrar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="contenido">
+{{content}}
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie-rejilla">
+        <div>
+          <a class="logo" href="/">
+            <svg class="logo-marca" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="currentColor"/><path d="M9 17.5l4.5 4.5L23 11" fill="none" stroke="var(--marca-tinta)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Al<b>Neto</b></span>
+          </a>
+          <p class="pie-lema">{{site.tagline}}. Cifras oficiales de 2026, sin registro y sin que tus datos salgan de tu navegador.</p>
+          <div class="pie-fuentes" aria-label="Fuentes de datos"><span>BOE</span><span>Agencia Tributaria</span><span>Seguridad Social</span><span>SEPE</span><span>INE</span></div>
+        </div>
+        <div>
+          <p class="pie-titulo">Calculadoras</p>
+          <ul>
+            <li><a href="/calculadora-sueldo-neto/">Sueldo neto 2026</a></li>
+            <li><a href="/calculadora-finiquito/">Finiquito e indemnización</a></li>
+            <li><a href="/calculadora-paro/">Paro 2026</a></li>
+            <li><a href="/subida-pensiones-2027/">Pensiones 2027</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="pie-titulo">Guías</p>
+          <ul>
+            <li><a href="/guias/salario-minimo-2026-neto/">Salario mínimo 2026</a></li>
+            <li><a href="/guias/despido-objetivo-o-improcedente/">Despido objetivo o improcedente</a></li>
+            <li><a href="/guias/">Todas las guías</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="pie-titulo">La web</p>
+          <ul>
+            <li><a href="/sobre-mi/">Sobre mí</a></li>
+            <li><a href="/contacto/">Contacto</a></li>
+            <li><a href="/aviso-legal/">Aviso legal</a></li>
+            <li><a href="/politica-de-privacidad/">Privacidad</a></li>
+            <li><a href="/politica-de-cookies/">Cookies</a></li>
+            <li><button type="button" class="enlace" data-cookies>Configurar cookies</button></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pie-base">
+        <p>Los resultados son estimaciones orientativas con la normativa vigente y no sustituyen el asesoramiento de un profesional.</p>
+        <p>© {{year}} {{site.name}}</p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    // Menú móvil
+    const cabecera = document.querySelector('.cabecera');
+    const botonMenu = cabecera.querySelector('.menu-boton');
+    const cerrarMenu = () => { cabecera.removeAttribute('data-abierto'); botonMenu.setAttribute('aria-expanded', 'false'); botonMenu.setAttribute('aria-label', 'Abrir el menú'); };
+    botonMenu.addEventListener('click', () => {
+      const abierto = cabecera.toggleAttribute('data-abierto');
+      botonMenu.setAttribute('aria-expanded', String(abierto));
+      botonMenu.setAttribute('aria-label', abierto ? 'Cerrar el menú' : 'Abrir el menú');
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenu(); });
+    document.addEventListener('click', (e) => { if (!cabecera.contains(e.target)) cerrarMenu(); });
+
+    // Panel de consentimiento de Google (cuando AdSense esté activo)
+    document.querySelectorAll('[data-cookies]').forEach((b) => b.addEventListener('click', () => {
+      if (window.googlefc?.callbackQueue) window.googlefc.callbackQueue.push(window.googlefc.showRevocationMessage);
+      else location.href = '/politica-de-cookies/';
+    }));
+
+    // Índice lateral: marca la sección que se está leyendo
+    const enlacesIndice = [...document.querySelectorAll('.indice ol a')];
+    if (enlacesIndice.length && 'IntersectionObserver' in window) {
+      const porId = new Map(enlacesIndice.map((a) => [a.hash.slice(1), a]));
+      const visibles = new Set();
+      const observador = new IntersectionObserver((entradas) => {
+        entradas.forEach((e) => (e.isIntersecting ? visibles.add(e.target.id) : visibles.delete(e.target.id)));
+        const actual = [...porId.keys()].find((id) => visibles.has(id));
+        if (!actual) return;
+        enlacesIndice.forEach((a) => (a === porId.get(actual) ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+      }, { rootMargin: '-80px 0px -65% 0px' });
+      porId.forEach((_, id) => { const h = document.getElementById(id); if (h) observador.observe(h); });
+    }
+  </script>
+  {{scripts}}
+</body>
+</html>

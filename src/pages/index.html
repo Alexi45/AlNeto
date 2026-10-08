@@ -1,0 +1,181 @@
+---
+title: AlNeto: calculadoras de sueldo, finiquito, paro y pensiones
+description: Calculadoras gratuitas para España con las cifras oficiales de 2026: sueldo neto, finiquito e indemnización, paro y subida de las pensiones en 2027. Sin registro.
+type: home
+script: inicio
+updated: 2026-10-08
+---
+<section class="hero">
+  <div class="contenedor hero-rejilla">
+    <div>
+      <span class="pastilla"><span class="pastilla-punto"></span>Actualizado con las cifras oficiales de 2026</span>
+      <h1>Tus cuentas de dinero, <em>claras y al céntimo</em></h1>
+      <p class="hero-sub">Cuánto te llega de nómina, cuánto te deben al dejar la empresa, cuánto cobrarás de paro o cuánto subirá tu pensión. Calculadoras gratuitas, sin registro y explicadas paso a paso.</p>
+      <div class="hero-acciones">
+        <a class="boton boton-claro" href="/calculadora-sueldo-neto/">Calcular mi sueldo neto</a>
+        <a class="boton boton-fantasma" href="#calculadoras">Ver todas las calculadoras</a>
+      </div>
+      <ul class="hero-confianza">
+        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg>Datos del BOE y la Agencia Tributaria</li>
+        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg>Sin registro</li>
+        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg>Tus datos no salen del navegador</li>
+      </ul>
+    </div>
+
+    <form class="mini" id="mini" novalidate aria-labelledby="mini-titulo">
+      <div class="mini-cabecera">
+        <p class="mini-titulo" id="mini-titulo">¿Cuánto cobras neto?</p>
+        <span class="chip">IRPF 2026</span>
+      </div>
+      <div class="mini-campos">
+        <div class="campo">
+          <label for="mini-bruto">Sueldo bruto anual</label>
+          <div class="entrada entrada-sufijo" data-sufijo="€"><input id="mini-bruto" name="bruto" type="text" inputmode="decimal" value="30.000" autocomplete="off"></div>
+        </div>
+        <fieldset class="campo">
+          <legend>Pagas</legend>
+          <div class="segmentos" style="min-width:112px">
+            <label><input type="radio" name="pagas" value="14" checked><span>14</span></label>
+            <label><input type="radio" name="pagas" value="12"><span>12</span></label>
+          </div>
+        </fieldset>
+      </div>
+      <div class="mini-resultado" aria-live="polite">
+        <p class="mini-etiqueta">Te llegan cada mes</p>
+        <p class="mini-cifra" data-out="neto">{{tabla:neto-30000}}</p>
+      </div>
+      <dl class="mini-datos">
+        <div class="mini-dato"><dt>Retención IRPF</dt><dd data-out="irpf">{{tabla:irpf-30000}}</dd></div>
+        <div class="mini-dato"><dt>Seg. Social/mes</dt><dd data-out="ss">{{tabla:ss-30000}}</dd></div>
+        <div class="mini-dato"><dt>Neto al año</dt><dd data-out="anual">{{tabla:anual-30000}}</dd></div>
+      </dl>
+      <a class="boton boton-primario" id="mini-enlace" href="/calculadora-sueldo-neto/">Ver el desglose completo →</a>
+    </form>
+  </div>
+</section>
+
+<div class="franja">
+  <div class="contenedor franja-in">
+    Calculado con datos oficiales de <span>BOE</span><span>Agencia Tributaria</span><span>Seguridad Social</span><span>SEPE</span><span>INE</span>
+  </div>
+</div>
+
+<section class="seccion" id="calculadoras">
+  <div class="contenedor">
+    <div class="seccion-cabecera">
+      <span class="antetitulo">Calculadoras</span>
+      <h2>Las cuentas que más te preguntas, resueltas</h2>
+      <p>Cada calculadora te da el resultado al momento y te explica de dónde sale cada euro.</p>
+    </div>
+    <div class="tarjetas tarjetas-4">
+      <a class="tarjeta" href="/calculadora-sueldo-neto/">
+        <span class="tarjeta-icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/></svg></span>
+        <h3>Sueldo neto 2026</h3>
+        <p>De bruto a neto con la retención de IRPF y la Seguridad Social de este año.</p>
+        <p class="tarjeta-dato">30.000 € brutos → <b>{{tabla:neto-30000}}</b> al mes</p>
+        <span class="tarjeta-cta">Calcular mi sueldo</span>
+      </a>
+      <a class="tarjeta" href="/calculadora-finiquito/">
+        <span class="tarjeta-icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span>
+        <h3>Finiquito e indemnización</h3>
+        <p>Vacaciones, pagas extra y lo que te toca si te despiden o se acaba tu contrato.</p>
+        <p class="tarjeta-dato">Despido improcedente: <b>33 días</b> por año</p>
+        <span class="tarjeta-cta">Calcular mi finiquito</span>
+      </a>
+      <a class="tarjeta" href="/calculadora-paro/">
+        <span class="tarjeta-icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 18 0z"/><path d="M12 12v6a2 2 0 0 1-4 0"/></svg></span>
+        <h3>Paro 2026</h3>
+        <p>Cuánto cobrarás al mes y durante cuánto tiempo, con los topes del SEPE.</p>
+        <p class="tarjeta-dato">Máximo sin hijos: <b>1.225 €</b> al mes</p>
+        <span class="tarjeta-cta">Calcular mi paro</span>
+      </a>
+      <a class="tarjeta" href="/subida-pensiones-2027/">
+        <span class="tarjeta-insignia">Novedad</span>
+        <span class="tarjeta-icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>
+        <h3>Pensiones 2027</h3>
+        <p>La subida prevista con el último dato de IPC y cómo queda tu pensión.</p>
+        <p class="tarjeta-dato">Subida prevista: <b>+3,5 %</b> en enero</p>
+        <span class="tarjeta-cta">Calcular mi pensión</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="seccion seccion-alt">
+  <div class="contenedor">
+    <div class="seccion-cabecera">
+      <span class="antetitulo">Cómo funciona</span>
+      <h2>Tres pasos, sin letra pequeña</h2>
+    </div>
+    <div class="pasos">
+      <div class="paso"><h3>Pon tus datos</h3><p>Solo lo necesario: tu sueldo, tus fechas o tu pensión. Sin registro ni email.</p></div>
+      <div class="paso"><h3>Resultado al momento</h3><p>Las cifras se recalculan mientras escribes, con la normativa vigente de 2026.</p></div>
+      <div class="paso"><h3>Entiende cada euro</h3><p>Ves el desglose y la explicación de cómo se calcula, con la norma de la que sale.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="contenedor">
+    <div class="seccion-cabecera">
+      <span class="antetitulo">Guías</span>
+      <h2>Lo que conviene saber de tu dinero</h2>
+      <p>Explicaciones claras, con ejemplos y cifras de 2026.</p>
+    </div>
+    <div class="tarjetas">
+      <a class="tarjeta" href="/guias/salario-minimo-2026-neto/">
+        <h3>Salario mínimo 2026: cuánto es neto al mes</h3>
+        <p>Cuánto queda limpio de los 1.221 € y cómo recuperar el IRPF en la Renta.</p>
+        <span class="tarjeta-cta">Leer la guía</span>
+      </a>
+      <a class="tarjeta" href="/guias/despido-objetivo-o-improcedente/">
+        <h3>Despido objetivo o improcedente</h3>
+        <p>Diferencias, cuánto se cobra en cada caso y qué hacer los primeros 20 días.</p>
+        <span class="tarjeta-cta">Leer la guía</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="seccion seccion-alt">
+  <div class="contenedor articulo-rejilla" style="padding-bottom:0">
+    <div class="prosa">
+      <span class="antetitulo">Preguntas frecuentes</span>
+      <h2 style="margin-top:0">Dudas habituales</h2>
+      <div class="faq">
+        <details>
+          <summary>¿Cuánto es el sueldo neto con 30.000 € brutos en 2026?</summary>
+          <div><p>Con contrato indefinido, soltero y sin hijos, unos {{tabla:neto-30000}} al mes en 14 pagas. Puedes ajustarlo a tu caso en la <a href="/calculadora-sueldo-neto/">calculadora de sueldo neto</a>.</p></div>
+        </details>
+        <details>
+          <summary>¿Cuánto es el salario mínimo neto en 2026?</summary>
+          <div><p>El salario mínimo es de 1.221 € brutos al mes en 14 pagas (17.094 € al año). Quitando la Seguridad Social y una pequeña retención de IRPF, quedan unos {{tabla:smi-neto-mensual}} netos al mes.</p></div>
+        </details>
+        <details>
+          <summary>¿Cuánto subirán las pensiones en 2027?</summary>
+          <div><p>Con el IPC publicado hasta septiembre, la previsión ronda el 3,5 %. La cifra definitiva se conocerá a mediados de diciembre. <a href="/subida-pensiones-2027/">Calcula tu nueva pensión</a>.</p></div>
+        </details>
+        <details>
+          <summary>¿De dónde salen las cifras?</summary>
+          <div><p>Del BOE, la Agencia Tributaria, la Seguridad Social, el SEPE y el INE. Cada calculadora indica al pie la normativa que usa y la fecha de la última revisión.</p></div>
+        </details>
+        <details>
+          <summary>¿Guardáis los datos que escribo?</summary>
+          <div><p>No. Las calculadoras funcionan enteras en tu navegador y no tienen formularios que se envíen. Puedes leer los detalles en la <a href="/politica-de-privacidad/">política de privacidad</a>.</p></div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="contenedor">
+    <div class="cta-final">
+      <div>
+        <h2>¿Cuánto te llega de verdad este mes?</h2>
+        <p>Compruébalo en 30 segundos con las cifras de 2026.</p>
+      </div>
+      <a class="boton boton-claro" href="/calculadora-sueldo-neto/">Calcular mi sueldo neto</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,143 @@
+---
+title: Subida pensiones 2027: calcula tu nueva pensión | AlNeto
+description: ¿Cuánto subirán las pensiones en 2027? Con el IPC de septiembre (4,9 %) la previsión ronda el 3,5 %. Calcula tu nueva pensión al mes y al año.
+type: calculadora
+script: pensiones
+breadcrumb: Pensiones 2027
+updated: 2026-10-08
+---
+<section class="cabecera-pagina">
+  <div class="contenedor">
+  <nav class="migas" aria-label="Estás en"><a href="/">Inicio</a> › Pensiones 2027</nav>
+  <header class="intro">
+    <span class="eyebrow">Previsión con el IPC de septiembre de 2026</span>
+    <h1>Subida de las pensiones en 2027: cuánto cobrarás</h1>
+    <p class="lead">Con los datos de inflación publicados hasta ahora, las pensiones subirían alrededor de un <strong>3,5 % en enero de 2027</strong>. Pon tu pensión y mira cómo queda.</p>
+    <p class="sello"><span>Ley 21/2021 de revalorización</span><span>Actualizado el {{actualizado}}</span><span>Tus datos no salen de tu navegador</span></p>
+  </header>
+  </div>
+</section>
+
+<div class="contenedor">
+
+  <div class="calc">
+    <form id="calculadora" class="panel" novalidate>
+      <h2>Tu pensión</h2>
+      <div class="campos">
+        <div class="campo campo-ancho">
+          <label for="pension">Pensión bruta al mes en 2026</label>
+          <div class="entrada entrada-sufijo" data-sufijo="€">
+            <input id="pension" name="pension" type="text" inputmode="decimal" value="1.200" autocomplete="off">
+          </div>
+          <p class="ayuda">La que cobras ahora, antes de la retención de IRPF.</p>
+        </div>
+
+        <fieldset class="campo campo-ancho">
+          <legend>¿Cuántas pagas cobras?</legend>
+          <div class="segmentos">
+            <label><input type="radio" name="pagas" value="14" checked><span>14 pagas</span></label>
+            <label><input type="radio" name="pagas" value="12"><span>12 pagas</span></label>
+          </div>
+        </fieldset>
+
+        <div class="campo campo-ancho">
+          <label for="ipc">IPC que esperas en octubre y noviembre: <output id="salida-ipc" for="ipc">4,4 %</output></label>
+          <input class="rango" id="ipc" name="ipc" type="range" min="2" max="6.5" step="0.05" value="4.35">
+          <p class="ayuda">Funcas prevé un 4,5 % en octubre y un 4,2 % en noviembre. Muévelo para ver otros escenarios.</p>
+        </div>
+      </div>
+    </form>
+
+    <div id="resultado" class="resultado" aria-live="polite">
+      <a class="resumen-movil escondido" href="#resultado" aria-hidden="true" tabindex="-1"><span>Tu pensión en 2027</span><strong data-out="nueva">—</strong></a>
+      <div class="resultado-principal">
+        <p class="etiqueta">Tu pensión en 2027</p>
+        <p class="cifra" data-out="nueva">—</p>
+        <p class="detalle"><span data-out="pagasTexto">al mes en 14 pagas</span>, con una subida del <strong data-out="subida">—</strong></p>
+      </div>
+      <div class="panel">
+        <ul class="desglose">
+          <li><span>Subida en cada paga</span><span data-out="porPaga">—</span></li>
+          <li><span>Subida en todo el año</span><span data-out="anual">—</span></li>
+          <li class="total"><span>Pensión anual en 2027</span><span data-out="anualNueva">—</span></li>
+        </ul>
+      </div>
+      <p class="nota nota-ok oculto" id="nota-maxima">Cobras la pensión máxima, que en 2027 sube 0,115 puntos más que el resto: quedaría en <strong data-out="maxima">—</strong> al mes.</p>
+      <p class="nota oculto" id="nota-por-encima">Esa cantidad supera la pensión máxima de 2026 (3.359,60 € en 14 pagas). Revisa que sea el importe de una sola pensión.</p>
+      <p class="nota">Es una estimación: la cifra oficial se conocerá a mediados de diciembre, con el IPC de noviembre.</p>
+      <div class="compartir"><button type="button" class="boton" id="compartir">Compartir este cálculo</button></div>
+    </div>
+  </div>
+
+  <div class="articulo-rejilla">
+  <article class="prosa">
+    <h2>Cuánto suben las pensiones en 2027</h2>
+    <p>Desde la Ley 21/2021, las pensiones contributivas suben cada mes de enero lo mismo que la <strong>media de las tasas de inflación (IPC) interanual</strong> de los 12 meses anteriores a diciembre, es decir, de diciembre de 2025 a noviembre de 2026.</p>
+    <p>A 8 de octubre de 2026, el INE ha publicado 10 de esos 12 meses:</p>
+    <ul>
+      <li>La media de diciembre de 2025 a septiembre de 2026 es del <strong>3,33 %</strong>.</li>
+      <li>El IPC adelantado de septiembre ha subido al <strong>4,9 %</strong>, el dato más alto desde febrero de 2023, sobre todo por los carburantes.</li>
+      <li>Si octubre y noviembre se quedan en torno al 4,2-4,5 % que prevé Funcas, la subida de 2027 sería del <strong>3,5 %</strong>.</li>
+    </ul>
+    <p>Como referencia, en 2026 las pensiones subieron un 2,7 %.</p>
+
+    <h2>Ejemplos: así quedan las pensiones con un 3,5 %</h2>
+    {{tabla:pensiones-ejemplos}}
+
+    <h2>Cuándo se sabrá la subida definitiva</h2>
+    <ul>
+      <li><strong>Finales de noviembre:</strong> el INE publica el IPC adelantado de noviembre y la cifra queda prácticamente cerrada.</li>
+      <li><strong>Mediados de diciembre:</strong> sale el dato definitivo y el Gobierno aprueba la revalorización.</li>
+      <li><strong>Enero de 2027:</strong> se cobra en la pensión de enero, que se paga a final de mes (algunos bancos la adelantan unos días).</li>
+    </ul>
+
+    <h2>Pensiones mínimas, no contributivas y máxima</h2>
+    <ul>
+      <li><strong>Mínimas y no contributivas:</strong> suelen subir más que el resto para cerrar la brecha con el umbral de pobreza. En 2026 subieron entre un 7 % y un 11,4 %. Su cifra de 2027 la fijará el real decreto de diciembre, así que esta calculadora les aplica la subida general (la suya será igual o mayor).</li>
+      <li><strong>Pensión máxima:</strong> en 2026 es de 3.359,60 € al mes en 14 pagas. Por la reforma de 2023 sube cada año la revalorización más 0,115 puntos, así que con un 3,5 % quedaría en unos 3.481 €.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <div class="faq">
+      <details>
+        <summary>¿Habrá paguilla en 2027?</summary>
+        <div><p>No. La paguilla compensaba la diferencia entre lo que subían las pensiones y la inflación real. Desde 2022 la subida se calcula con la inflación ya conocida, así que no hay desviación que compensar.</p></div>
+      </details>
+      <details>
+        <summary>¿Suben igual las pensiones de viudedad e incapacidad?</summary>
+        <div><p>Sí. Todas las pensiones contributivas de la Seguridad Social y de clases pasivas suben el mismo porcentaje. Las de viudedad que estén en la cuantía mínima subirán lo que fije el decreto para las mínimas.</p></div>
+      </details>
+      <details>
+        <summary>¿Me retendrán más IRPF con la subida?</summary>
+        <div><p>Puede que un poco. La retención se recalcula con la pensión anual nueva, así que si estás cerca de un cambio de tramo el neto puede subir algo menos que el bruto.</p></div>
+      </details>
+      <details>
+        <summary>¿Y si la inflación baja en octubre y noviembre?</summary>
+        <div><p>La subida sería algo menor. Si los dos meses bajan un punto, la media anual baja unos 0,17 puntos (casi dos décimas). Mueve el control del IPC en la calculadora para verlo.</p></div>
+      </details>
+    </div>
+
+    {{autoria}}
+
+    <div class="fuentes">
+      <p><strong>Fuentes</strong> (revisadas el {{actualizado}}):</p>
+      <ul>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2021-21652" rel="noopener">Ley 21/2021, de garantía del poder adquisitivo de las pensiones</a>.</li>
+        <li>Índice de Precios de Consumo del <a href="https://www.ine.es/" rel="noopener">INE</a> (dato adelantado de septiembre de 2026) y previsiones de Funcas para octubre y noviembre.</li>
+        <li>Real Decreto 39/2026 (pensión máxima de 2026).</li>
+      </ul>
+      <p>Actualizaremos esta página con cada nuevo dato del IPC.</p>
+    </div>
+  </article>
+  <aside class="indice">{{toc}}</aside>
+  </div>
+
+  <section class="relacionadas">
+    <h2>Otras calculadoras</h2>
+    <div class="tarjetas tarjetas-3">
+      <a class="tarjeta" href="/calculadora-sueldo-neto/"><h3>Sueldo neto 2026</h3><p>De bruto a neto con el IRPF y la Seguridad Social.</p><span class="tarjeta-cta">Calcular</span></a>
+      <a class="tarjeta" href="/calculadora-paro/"><h3>Paro 2026</h3><p>Cuánto cobrarás y durante cuántos meses.</p><span class="tarjeta-cta">Calcular</span></a>
+      <a class="tarjeta" href="/calculadora-finiquito/"><h3>Finiquito e indemnización</h3><p>Lo que te deben al dejar la empresa o si te despiden.</p><span class="tarjeta-cta">Calcular</span></a>
+    </div>
+  </section>
+</div>

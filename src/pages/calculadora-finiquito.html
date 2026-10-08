@@ -1,0 +1,223 @@
+---
+title: Calculadora de finiquito e indemnización 2026 | AlNeto
+description: Calcula tu finiquito (vacaciones, pagas extra y días del mes) y la indemnización por despido improcedente, objetivo o fin de contrato. Gratis y explicado paso a paso.
+type: calculadora
+script: finiquito
+breadcrumb: Finiquito
+updated: 2026-10-08
+---
+<section class="cabecera-pagina">
+  <div class="contenedor">
+  <nav class="migas" aria-label="Estás en"><a href="/">Inicio</a> › Finiquito</nav>
+  <header class="intro">
+    <h1>Calculadora de finiquito e indemnización</h1>
+    <p class="lead">Calcula lo que te debe la empresa al terminar tu contrato: días del último mes, vacaciones sin disfrutar, pagas extra y, si te despiden, la indemnización.</p>
+    <p class="sello"><span>Estatuto de los Trabajadores</span><span>Actualizado el {{actualizado}}</span><span>Tus datos no salen de tu navegador</span></p>
+  </header>
+  </div>
+</section>
+
+<div class="contenedor">
+
+  <div class="calc">
+    <form id="calculadora" class="panel" novalidate>
+      <h2>Tus datos</h2>
+      <div class="campos">
+        <div class="campo campo-ancho">
+          <label for="motivo">¿Por qué termina el contrato?</label>
+          <select id="motivo" name="motivo">
+            <option value="voluntaria">Me voy yo (baja voluntaria)</option>
+            <option value="fin-temporal">Se acaba mi contrato temporal</option>
+            <option value="objetivo">Despido objetivo o ERE</option>
+            <option value="improcedente" selected>Despido improcedente</option>
+            <option value="disciplinario">Despido disciplinario procedente</option>
+          </select>
+        </div>
+
+        <div class="campo campo-ancho">
+          <label for="bruto">Salario bruto anual</label>
+          <div class="entrada entrada-sufijo" data-sufijo="€">
+            <input id="bruto" name="bruto" type="text" inputmode="decimal" value="24.000" autocomplete="off">
+          </div>
+          <p class="ayuda">Con las pagas extra y los pluses fijos incluidos.</p>
+        </div>
+
+        <div class="campo">
+          <label for="fechaInicio">Fecha de inicio</label>
+          <div class="entrada"><input id="fechaInicio" name="fechaInicio" type="date" min="1970-01-01"></div>
+        </div>
+        <div class="campo">
+          <label for="fechaBaja">Último día trabajado</label>
+          <div class="entrada"><input id="fechaBaja" name="fechaBaja" type="date" min="1970-01-01"></div>
+        </div>
+        <p class="ayuda campo-ancho oculto" id="error-fechas" style="color:var(--error)">El último día tiene que ser posterior a la fecha de inicio.</p>
+
+        <fieldset class="campo">
+          <legend>Pagas extra</legend>
+          <div class="segmentos">
+            <label><input type="radio" name="pagas" value="14" checked><span>Aparte</span></label>
+            <label><input type="radio" name="pagas" value="12"><span>Prorrateadas</span></label>
+          </div>
+        </fieldset>
+
+        <div class="campo" id="campo-devengo">
+          <label for="devengo">Se generan</label>
+          <select id="devengo" name="devengo">
+            <option value="semestral">Cada semestre (lo habitual)</option>
+            <option value="anual">A lo largo del año</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="vacaciones">Vacaciones al año</label>
+          <div class="entrada entrada-sufijo" data-sufijo="días"><input id="vacaciones" name="vacaciones" type="text" inputmode="numeric" value="30" style="padding-right:56px"></div>
+          <p class="ayuda">Naturales. El mínimo legal son 30.</p>
+        </div>
+        <div class="campo">
+          <label for="disfrutadas">Ya disfrutadas este año</label>
+          <div class="entrada entrada-sufijo" data-sufijo="días"><input id="disfrutadas" name="disfrutadas" type="text" inputmode="numeric" value="0" style="padding-right:56px"></div>
+        </div>
+      </div>
+    </form>
+
+    <div id="resultado" class="resultado" aria-live="polite">
+      <a class="resumen-movil escondido" href="#resultado" aria-hidden="true" tabindex="-1"><span>Total a cobrar</span><strong data-out="total">—</strong></a>
+      <div class="resultado-principal">
+        <p class="etiqueta">Total a cobrar (bruto)</p>
+        <p class="cifra" data-out="total">—</p>
+        <p class="detalle">Finiquito <strong data-out="totalFiniquito">—</strong> + indemnización <strong data-out="indemnizacion">—</strong></p>
+      </div>
+
+      <div class="panel">
+        <h2>Finiquito</h2>
+        <ul class="desglose">
+          <li><span>Salario del último mes (<span data-out="salarioDias">—</span>)</span><span data-out="salario">—</span></li>
+          <li><span>Vacaciones no disfrutadas</span><span data-out="vacaciones">—</span></li>
+          <li class="sub"><span data-out="vacacionesDias">—</span><span></span></li>
+          <li id="linea-extras"><span>Parte de las pagas extra</span><span data-out="extras">—</span></li>
+        </ul>
+        <ul class="desglose" id="lista-extras"></ul>
+        <ul class="desglose"><li class="total"><span>Total finiquito</span><span data-out="totalFiniquito">—</span></li></ul>
+
+        <div id="bloque-indemnizacion">
+          <h2 style="margin-top:22px">Indemnización</h2>
+          <ul class="desglose">
+            <li><span>Motivo</span><span data-out="motivo">—</span></li>
+            <li><span>Antigüedad</span><span data-out="antiguedad">—</span></li>
+            <li><span>Días de salario</span><span data-out="indemDias">—</span></li>
+            <li><span>Salario diario</span><span data-out="salarioDia">—</span></li>
+            <li class="total"><span>Indemnización</span><span data-out="indemnizacion">—</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="nota oculto" id="nota-sin-indemnizacion">En este caso no hay indemnización: solo cobras el finiquito.</p>
+      <p class="nota oculto" id="nota-voluntaria">Si te vas sin dar el preaviso de tu convenio (normalmente 15 días), la empresa puede descontarte los días que falten. La baja voluntaria tampoco da derecho a paro.</p>
+      <p class="nota oculto" id="nota-tope">Se ha aplicado el tope legal de la indemnización.</p>
+      <p class="nota oculto" id="nota-vacaciones-negativas">Has disfrutado más vacaciones de las que llevas generadas: la empresa puede descontarte esa diferencia.</p>
+      <p class="nota nota-ok">El finiquito tributa como salario. La indemnización legal por despido está exenta de IRPF (hasta 180.000 €).</p>
+      <div class="compartir"><button type="button" class="boton" id="compartir">Compartir este cálculo</button></div>
+    </div>
+  </div>
+
+  <div class="articulo-rejilla">
+  <article class="prosa">
+    <h2>Qué es el finiquito y qué incluye</h2>
+    <p>El finiquito es el documento con el que la empresa liquida todo lo que te debe cuando termina tu contrato, <strong>sea cual sea el motivo</strong>: también si te vas tú. Incluye:</p>
+    <ul>
+      <li><strong>El salario de los días trabajados</strong> del último mes que aún no has cobrado.</li>
+      <li><strong>Las vacaciones generadas y no disfrutadas.</strong> Con 30 días al año, generas 2,5 días por cada mes trabajado.</li>
+      <li><strong>La parte proporcional de las pagas extra</strong>, si no las cobras prorrateadas cada mes.</li>
+      <li>Cualquier otra cantidad pendiente: horas extra, comisiones, dietas…</li>
+    </ul>
+
+    <h2>Finiquito e indemnización no son lo mismo</h2>
+    <p>La indemnización es una compensación aparte que solo existe en algunos casos de despido o fin de contrato:</p>
+    <div class="tabla-envoltura"><table>
+      <thead><tr><th>Motivo</th><th>Indemnización</th><th>Tope</th></tr></thead>
+      <tbody>
+        <tr><td>Baja voluntaria</td><td>No hay</td><td>—</td></tr>
+        <tr><td>Fin de contrato temporal</td><td>12 días por año trabajado</td><td>Sin tope</td></tr>
+        <tr><td>Despido objetivo o ERE</td><td>20 días por año trabajado</td><td>12 mensualidades</td></tr>
+        <tr><td>Despido improcedente</td><td>33 días por año trabajado</td><td>24 mensualidades</td></tr>
+        <tr><td>Despido disciplinario procedente</td><td>No hay</td><td>—</td></tr>
+        <tr><td>Despido nulo</td><td>Readmisión y salarios no cobrados</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <p>Si el despido es improcedente, la empresa elige entre readmitirte o pagarte la indemnización (salvo que tu convenio diga otra cosa o seas representante de los trabajadores).</p>
+
+    <h2>Cómo se calcula cada parte</h2>
+    <h3>Salario diario</h3>
+    <p>Se divide el sueldo bruto anual, con pagas extra incluidas, entre 365. Con 24.000 € al año, el salario diario es de 65,75 €.</p>
+    <h3>Vacaciones no disfrutadas</h3>
+    <p>Días generados = días de vacaciones al año × días trabajados este año ÷ 365. A eso le restas los días que ya hayas disfrutado y lo multiplicas por el salario diario. Si has disfrutado más de los generados, la empresa puede descontarte la diferencia.</p>
+    <h3>Pagas extra</h3>
+    <p>Depende de tu convenio. Lo más habitual es que la paga de verano se genere de enero a junio y la de Navidad de julio a diciembre (devengo semestral). En otros convenios cada paga se genera durante un año entero. En los dos casos te corresponde la parte proporcional de los días trabajados desde que empezó a generarse.</p>
+    <h3>Indemnización</h3>
+    <p>Se multiplica el salario diario por los días que te tocan por cada año trabajado. Los periodos de menos de un año se reparten por meses, y un mes empezado cuenta como mes completo. Por ejemplo, 2 años y 15 días cuentan como 2 años y 1 mes.</p>
+
+    <h2>Si tu contrato es anterior al 12 de febrero de 2012</h2>
+    <p>La reforma laboral de 2012 bajó la indemnización por despido improcedente de 45 a 33 días por año. Si empezaste antes, el cálculo tiene dos tramos:</p>
+    <ul>
+      <li>Hasta el 11 de febrero de 2012: <strong>45 días por año</strong>.</li>
+      <li>Desde el 12 de febrero de 2012: <strong>33 días por año</strong>.</li>
+    </ul>
+    <p>El total no puede pasar de 720 días de salario. La excepción: si el primer tramo ya supera los 720 días, te quedas con ese importe, con un máximo de 1.260 días (42 mensualidades). La calculadora lo aplica sola cuando pones una fecha de inicio anterior.</p>
+
+    <h2>Impuestos: qué tributa y qué no</h2>
+    <ul>
+      <li><strong>El finiquito</strong> es salario: lleva su retención de IRPF y su cotización a la Seguridad Social, igual que una nómina.</li>
+      <li><strong>La indemnización por despido</strong> está exenta de IRPF hasta lo que marca la ley, con un máximo de 180.000 €. Para que la del despido improcedente esté exenta, tiene que reconocerse en el acto de conciliación o por sentencia. Lo que la empresa pague de más sí tributa.</li>
+    </ul>
+
+    <h2>Antes de firmar el finiquito</h2>
+    <ul>
+      <li>Revisa las cuentas con esta calculadora. Si no estás de acuerdo, firma poniendo <strong>«no conforme»</strong> junto a tu firma: así cobras lo que te dan y puedes reclamar el resto.</li>
+      <li>Tienes derecho a que esté presente un representante de los trabajadores cuando lo firmes.</li>
+      <li>Para impugnar un despido tienes <strong>20 días hábiles</strong>. Para reclamar cantidades mal calculadas, <strong>un año</strong>.</li>
+      <li>Si la empresa te paga tarde, puedes reclamar un interés del 10 % anual sobre lo que te deba.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <div class="faq">
+      <details>
+        <summary>¿Me pagan el finiquito si me voy voluntariamente?</summary>
+        <div><p>Sí. El finiquito se cobra siempre. Lo que no tendrás es indemnización ni derecho a paro, y si no das el preaviso de tu convenio pueden descontarte los días que falten.</p></div>
+      </details>
+      <details>
+        <summary>¿Cuándo me tienen que pagar el finiquito?</summary>
+        <div><p>Lo normal es cobrarlo el último día o con la nómina de ese mes. La empresa debe darte una propuesta del documento de liquidación con el aviso de despido o de fin de contrato.</p></div>
+      </details>
+      <details>
+        <summary>¿Y si me despiden sin el preaviso?</summary>
+        <div><p>En el despido objetivo y en el fin de contratos temporales de más de un año, la empresa debe avisarte con 15 días. Si no lo hace, tiene que pagarte el salario de esos días.</p></div>
+      </details>
+      <details>
+        <summary>¿El fin de un contrato temporal da derecho a paro?</summary>
+        <div><p>Sí. Es una situación legal de desempleo, así que si has cotizado lo suficiente puedes pedir el paro. Calcula cuánto te corresponde con la <a href="/calculadora-paro/">calculadora de paro</a>.</p></div>
+      </details>
+    </div>
+
+    {{autoria}}
+
+    <div class="fuentes">
+      <p><strong>Fuentes y normativa</strong> (revisadas el {{actualizado}}):</p>
+      <ul>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430" rel="noopener">Estatuto de los Trabajadores</a>: artículos 38 (vacaciones), 49 (extinción y finiquito), 53 (despido objetivo), 56 (despido improcedente) y 59 (plazos), y disposición transitoria undécima (contratos anteriores a 2012).</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" rel="noopener">Ley del IRPF</a>, artículo 7.e (exención de las indemnizaciones por despido).</li>
+      </ul>
+      <p>Tu convenio colectivo puede mejorar estos importes (más días de vacaciones, otras fechas de devengo, preavisos distintos).</p>
+    </div>
+  </article>
+  <aside class="indice">{{toc}}</aside>
+  </div>
+
+  <section class="relacionadas">
+    <h2>Otras calculadoras</h2>
+    <div class="tarjetas tarjetas-3">
+      <a class="tarjeta" href="/calculadora-paro/"><h3>Paro 2026</h3><p>Cuánto cobrarás y durante cuántos meses.</p><span class="tarjeta-cta">Calcular</span></a>
+      <a class="tarjeta" href="/calculadora-sueldo-neto/"><h3>Sueldo neto 2026</h3><p>De bruto a neto con el IRPF y la Seguridad Social.</p><span class="tarjeta-cta">Calcular</span></a>
+      <a class="tarjeta" href="/subida-pensiones-2027/"><h3>Pensiones 2027</h3><p>Cuánto subirá tu pensión con el último dato de IPC.</p><span class="tarjeta-cta">Calcular</span></a>
+    </div>
+  </section>
+</div>

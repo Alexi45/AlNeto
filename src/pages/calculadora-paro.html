@@ -1,0 +1,169 @@
+---
+title: Calculadora de paro 2026: cuánto vas a cobrar | AlNeto
+description: Calcula cuánto cobrarás de paro en 2026 y durante cuántos meses según tu sueldo y lo que has cotizado. Con los mínimos y máximos oficiales del SEPE.
+type: calculadora
+script: paro
+breadcrumb: Paro
+updated: 2026-10-08
+---
+<section class="cabecera-pagina">
+  <div class="contenedor">
+  <nav class="migas" aria-label="Estás en"><a href="/">Inicio</a> › Paro</nav>
+  <header class="intro">
+    <h1>Calculadora de paro 2026</h1>
+    <p class="lead">Calcula la prestación por desempleo que te corresponde: cuánto cobrarás al mes, durante cuánto tiempo y cuánto te descuentan, con los topes oficiales de 2026.</p>
+    <p class="sello"><span>Cuantías del SEPE para 2026</span><span>Actualizado el {{actualizado}}</span><span>Tus datos no salen de tu navegador</span></p>
+  </header>
+  </div>
+</section>
+
+<div class="contenedor">
+
+  <div class="calc">
+    <form id="calculadora" class="panel" novalidate>
+      <h2>Tus datos</h2>
+      <div class="campos">
+        <div class="campo campo-ancho">
+          <label for="bruto">Salario bruto anual</label>
+          <div class="entrada entrada-sufijo" data-sufijo="€">
+            <input id="bruto" name="bruto" type="text" inputmode="decimal" value="22.000" autocomplete="off">
+          </div>
+          <p class="ayuda">El de los últimos 6 meses, con pagas extra y sin horas extra.</p>
+        </div>
+
+        <div class="campo campo-ancho">
+          <label for="meses">Meses cotizados en los últimos 6 años: <output id="salida-meses" for="meses">36 meses</output></label>
+          <input class="rango" id="meses" name="meses" type="range" min="0" max="72" step="1" value="36">
+          <p class="ayuda">Sin contar lo que ya usaste para cobrar un paro anterior.</p>
+        </div>
+
+        <div class="campo campo-ancho">
+          <label for="hijos">Hijos menores de 26 a tu cargo</label>
+          <select id="hijos" name="hijos">
+            <option value="0">Ninguno</option>
+            <option value="1">1</option>
+            <option value="2">2 o más</option>
+          </select>
+        </div>
+      </div>
+    </form>
+
+    <div id="resultado" class="resultado" aria-live="polite">
+      <a class="resumen-movil escondido" href="#resultado" aria-hidden="true" tabindex="-1"><span>Paro al mes</span><strong data-out="primeros">—</strong></a>
+      <div id="con-derecho">
+        <div class="resultado-principal">
+          <p class="etiqueta">Cobrarás de paro</p>
+          <p class="cifra" data-out="primeros">—</p>
+          <p class="detalle">al mes los primeros 6 meses<span data-out="ajustePrimeros"></span>, durante <strong data-out="duracion">—</strong></p>
+        </div>
+        <div class="panel" style="margin-top:14px">
+          <ul class="desglose">
+            <li><span>Base reguladora</span><span data-out="base">—</span></li>
+            <li><span>Días 1 a 180 (70 %)</span><span data-out="primeros">—</span></li>
+            <li class="sub"><span>Neto aprox. tras la Seguridad Social</span><span data-out="primerosNeto">—</span></li>
+            <li id="linea-despues"><span>Desde el día 181 (60 %)<span data-out="ajusteDespues"></span></span><span data-out="despues">—</span></li>
+            <li class="sub"><span>Cotización que te descuentan (4,70 %)</span><span data-out="cotizacion">—</span></li>
+            <li class="total"><span>Total durante toda la prestación</span><span data-out="total">—</span></li>
+          </ul>
+        </div>
+        <p class="nota oculto" id="nota-tope" style="margin-top:14px">Tu sueldo supera el tope: cobrarás el máximo para tu situación (<strong data-out="maximo">—</strong> al mes).</p>
+      </div>
+      <div id="sin-derecho" class="oculto">
+        <div class="resultado-principal">
+          <p class="etiqueta">Paro contributivo</p>
+          <p class="cifra">Sin derecho</p>
+          <p class="detalle">Necesitas al menos 12 meses (360 días) cotizados en los últimos 6 años.</p>
+        </div>
+        <p class="nota" style="margin-top:14px">Si has cotizado al menos 3 meses (90 días), puede que te corresponda el <strong>subsidio por desempleo</strong>. Consúltalo en el SEPE.</p>
+      </div>
+      <p class="nota">Importes brutos para jornada completa. Si trabajabas a tiempo parcial, los mínimos y máximos se reducen en proporción a tu jornada.</p>
+      <div class="compartir"><button type="button" class="boton" id="compartir">Compartir este cálculo</button></div>
+    </div>
+  </div>
+
+  <div class="articulo-rejilla">
+  <article class="prosa">
+    <h2>Requisitos para cobrar el paro</h2>
+    <ul>
+      <li>Haber cotizado <strong>al menos 360 días</strong> (12 meses) en los últimos 6 años.</li>
+      <li>Estar en <strong>situación legal de desempleo</strong>: despido, fin de contrato temporal, ERE, no superar el periodo de prueba cuando lo decide la empresa… Si te vas voluntariamente, no.</li>
+      <li>Inscribirte como demandante de empleo y firmar el acuerdo de actividad.</li>
+      <li>Pedirlo en los <strong>15 días hábiles</strong> siguientes al fin del contrato. Si lo pides más tarde, pierdes los días de retraso.</li>
+    </ul>
+
+    <h2>Cuánto tiempo cobras el paro</h2>
+    <p>La duración depende de los días que hayas cotizado en los últimos 6 años:</p>
+    {{tabla:paro-duracion}}
+    <p>Los días que ya usaste para cobrar un paro anterior no vuelven a contar.</p>
+
+    <h2>Cuánto se cobra de paro en 2026</h2>
+    <p>Todo parte de la <strong>base reguladora</strong>: la media de tus bases de cotización de los últimos 180 días. Es más o menos tu sueldo bruto mensual con la parte proporcional de las pagas extra, sin horas extra. Sobre ella se aplica:</p>
+    <ul>
+      <li>El <strong>70 %</strong> durante los primeros 180 días (6 meses).</li>
+      <li>El <strong>60 %</strong> desde el día 181 hasta el final.</li>
+    </ul>
+    <p>Con un límite mínimo y otro máximo que dependen de tus hijos. Se calculan sobre el IPREM, que sigue en 600 € al mes en 2026:</p>
+    {{tabla:paro-topes}}
+
+    <h3>Ejemplos con 6 años cotizados</h3>
+    {{tabla:paro-ejemplos}}
+    <p>A partir de unos 21.000 € brutos al año sin hijos ya se cobra el máximo de 1.225 € los primeros meses. Por eso con 24.000 € te quedan <strong>{{tabla:paro-24000}}</strong>, igual que con 40.000 €.</p>
+
+    <h2>Qué te descuentan del paro</h2>
+    <ul>
+      <li><strong>La cotización a la Seguridad Social</strong>: un 4,70 % de la base reguladora. El SEPE paga la parte que antes ponía la empresa, así que sigues cotizando para tu jubilación.</li>
+      <li><strong>El IRPF</strong>: el paro tributa. El SEPE aplica una retención según lo que vayas a cobrar en el año, y puedes pedirle que te retenga más para no pagar en la Renta. Si en el mismo año has tenido empresa y paro, tienes dos pagadores y quizá debas hacer la declaración.</li>
+    </ul>
+
+    <h2>Otras cosas que conviene saber</h2>
+    <ul>
+      <li><strong>Cuándo se cobra:</strong> el SEPE paga a mes vencido, normalmente entre los días 10 y 15.</li>
+      <li><strong>Trabajar a tiempo parcial:</strong> puedes compatibilizarlo con el paro. Te descuentan la parte proporcional a las horas que trabajes.</li>
+      <li><strong>Capitalizar el paro:</strong> si vas a montar un negocio o hacerte autónomo, puedes pedir lo que te queda de golpe (pago único).</li>
+      <li><strong>Si no te llega para el paro:</strong> con al menos 3 meses cotizados puedes tener derecho al subsidio por desempleo: 570 € al mes los primeros 6 meses, 540 € los 6 siguientes y 480 € después.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <div class="faq">
+      <details>
+        <summary>¿Cobro el paro si me voy voluntariamente de la empresa?</summary>
+        <div><p>No. La baja voluntaria no es una situación legal de desempleo. Hay excepciones, como irte por un traslado o una modificación sustancial de tus condiciones, o por ser víctima de violencia de género.</p></div>
+      </details>
+      <details>
+        <summary>¿Cuánto paro me queda con 1 año trabajado?</summary>
+        <div><p>Con 360 días cotizados te corresponden 120 días de prestación, es decir, 4 meses. Ponlo en la calculadora para ver el importe.</p></div>
+      </details>
+      <details>
+        <summary>¿El paro cotiza para la jubilación?</summary>
+        <div><p>Sí. Mientras cobras el paro contributivo sigues cotizando por jubilación, incapacidad y asistencia sanitaria. Tu parte se descuenta de la prestación y el SEPE pone la de la empresa.</p></div>
+      </details>
+      <details>
+        <summary>¿Qué pasa si encuentro trabajo antes de agotar el paro?</summary>
+        <div><p>Si el contrato dura menos de 12 meses, la prestación se suspende y la retomas al acabar. Si dura 12 meses o más, puedes elegir entre retomar la que te quedaba o pedir una nueva con lo cotizado en ese contrato.</p></div>
+      </details>
+    </div>
+
+    {{autoria}}
+
+    <div class="fuentes">
+      <p><strong>Fuentes y normativa</strong> (revisadas el {{actualizado}}):</p>
+      <ul>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724" rel="noopener">Ley General de la Seguridad Social</a>, artículos 266 a 274 (requisitos, duración y cuantía de la prestación).</li>
+        <li>IPREM de 2026 (600 € al mes) y cuantías mínimas y máximas publicadas por el <a href="https://www.sepe.es/" rel="noopener">SEPE</a>.</li>
+        <li>Base máxima de cotización de 2026 (5.101,20 € al mes).</li>
+      </ul>
+      <p>Para un cálculo vinculante, usa el simulador de tu área personal del SEPE.</p>
+    </div>
+  </article>
+  <aside class="indice">{{toc}}</aside>
+  </div>
+
+  <section class="relacionadas">
+    <h2>Otras calculadoras</h2>
+    <div class="tarjetas tarjetas-3">
+      <a class="tarjeta" href="/calculadora-finiquito/"><h3>Finiquito e indemnización</h3><p>Lo que te deben al dejar la empresa o si te despiden.</p><span class="tarjeta-cta">Calcular</span></a>
+      <a class="tarjeta" href="/calculadora-sueldo-neto/"><h3>Sueldo neto 2026</h3><p>De bruto a neto con el IRPF y la Seguridad Social.</p><span class="tarjeta-cta">Calcular</span></a>
+      <a class="tarjeta" href="/subida-pensiones-2027/"><h3>Pensiones 2027</h3><p>Cuánto subirá tu pensión con el último dato de IPC.</p><span class="tarjeta-cta">Calcular</span></a>
+    </div>
+  </section>
+</div>

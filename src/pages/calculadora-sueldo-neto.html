@@ -1,0 +1,211 @@
+---
+title: Calculadora de sueldo neto 2026: de bruto a neto | AlNeto
+description: Calcula tu sueldo neto mensual a partir del bruto anual con la retención de IRPF y las cotizaciones a la Seguridad Social de 2026. Gratis, sin registro y al momento.
+type: calculadora
+script: sueldo-neto
+breadcrumb: Sueldo neto
+updated: 2026-10-08
+---
+<section class="cabecera-pagina">
+  <div class="contenedor">
+  <nav class="migas" aria-label="Estás en"><a href="/">Inicio</a> › Sueldo neto</nav>
+  <header class="intro">
+    <h1>Calculadora de sueldo neto 2026</h1>
+    <p class="lead">Escribe tu salario bruto anual y verás cuánto te llega cada mes, cuánto se queda Hacienda (IRPF) y cuánto la Seguridad Social. Usa las cifras oficiales de 2026.</p>
+    <p class="sello"><span>IRPF y cotizaciones de 2026</span><span>Actualizado el {{actualizado}}</span><span>Tus datos no salen de tu navegador</span></p>
+  </header>
+  </div>
+</section>
+
+<div class="contenedor">
+
+  <div class="calc">
+    <form id="calculadora" class="panel" novalidate>
+      <h2>Tus datos</h2>
+      <div class="campos">
+        <div class="campo campo-ancho">
+          <label for="bruto">Salario bruto anual</label>
+          <div class="entrada entrada-sufijo" data-sufijo="€">
+            <input id="bruto" name="bruto" type="text" inputmode="decimal" value="30.000" autocomplete="off" aria-describedby="ayuda-bruto">
+          </div>
+          <p class="ayuda" id="ayuda-bruto">Lo que pone en tu contrato, sumando las pagas extra.</p>
+        </div>
+
+        <fieldset class="campo">
+          <legend>Número de pagas</legend>
+          <div class="segmentos">
+            <label><input type="radio" name="pagas" value="14" checked><span>14</span></label>
+            <label><input type="radio" name="pagas" value="12"><span>12</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="campo">
+          <legend>Contrato</legend>
+          <div class="segmentos">
+            <label><input type="radio" name="contrato" value="indefinido" checked><span>Indefinido</span></label>
+            <label><input type="radio" name="contrato" value="temporal"><span>Temporal</span></label>
+          </div>
+        </fieldset>
+
+        <div class="campo campo-ancho">
+          <label for="situacion">Situación familiar</label>
+          <select id="situacion" name="situacion">
+            <option value="3">Soltero/a, o en pareja y los dos con ingresos</option>
+            <option value="2">Casado/a, y mi cónyuge gana menos de 1.500 € al año</option>
+            <option value="1">Familia monoparental (crío solo/a a mis hijos)</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="hijos">Hijos menores de 25</label>
+          <select id="hijos" name="hijos">
+            <option value="0">Ninguno</option><option value="1">1</option><option value="2">2</option>
+            <option value="3">3</option><option value="4">4</option><option value="5">5 o más</option>
+          </select>
+        </div>
+
+        <div class="campo oculto" id="campo-menores3">
+          <label for="menores3">De ellos, menores de 3</label>
+          <select id="menores3" name="menores3">
+            <option value="0">Ninguno</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="edad">Tu edad</label>
+          <select id="edad" name="edad">
+            <option value="menos65">Menos de 65</option>
+            <option value="65a74">De 65 a 74</option>
+            <option value="75omas">75 o más</option>
+          </select>
+        </div>
+      </div>
+    </form>
+
+    <div id="resultado" class="resultado" aria-live="polite">
+      <a class="resumen-movil escondido" href="#resultado" aria-hidden="true" tabindex="-1"><span>Tu sueldo neto al mes</span><strong data-out="netoMensual">—</strong></a>
+      <div class="resultado-principal">
+        <p class="etiqueta">Tu sueldo neto</p>
+        <p class="cifra" data-out="netoMensual">—</p>
+        <p class="detalle"><span data-out="pagasTexto">al mes en 14 pagas</span><span id="detalle-extra"> · pagas extra de <strong data-out="pagaExtra">—</strong></span></p>
+      </div>
+
+      <div class="panel">
+        <div class="barra" aria-hidden="true"><span class="b-neto" id="b-neto"></span><span class="b-irpf" id="b-irpf"></span><span class="b-ss" id="b-ss"></span></div>
+        <ul class="desglose">
+          <li><span>Bruto de cada nómina</span><span data-out="brutoPaga">—</span></li>
+          <li><span><i class="punto" style="background:var(--irpf)"></i>Retención IRPF (<span data-out="irpfTipo">—</span>)</span><span data-out="irpfPaga">—</span></li>
+          <li><span><i class="punto" style="background:var(--ss)"></i>Seguridad Social (<span data-out="ssTipo">—</span>)</span><span data-out="ssPaga">—</span></li>
+          <li class="total"><span><i class="punto" style="background:var(--marca)"></i>Neto al mes</span><span data-out="netoMensual">—</span></li>
+        </ul>
+        <ul class="desglose" style="margin-top:12px">
+          <li><span>Neto al año</span><span data-out="netoAnual">—</span></li>
+          <li id="linea-extra"><span>Paga extra (junio y diciembre)</span><span data-out="pagaExtra">—</span></li>
+          <li><span>IRPF retenido al año</span><span data-out="irpfAnual">—</span></li>
+          <li><span>Seguridad Social al año</span><span data-out="ssAnual">—</span></li>
+        </ul>
+      </div>
+
+      <p class="nota nota-ok oculto" id="nota-exento">Con este sueldo la empresa no te retiene IRPF: estás por debajo del límite de <strong data-out="limite">—</strong> al año para tu situación.</p>
+      <p class="nota oculto" id="nota-temporal">En contratos de menos de un año la retención mínima es del 2 %.</p>
+      <p class="nota nota-ok oculto" id="nota-deduccion">Con la nueva deducción para sueldos bajos, en la Renta de 2026 Hacienda podría devolverte hasta <strong data-out="deduccion">—</strong> de lo retenido.</p>
+      <p class="nota oculto" id="nota-tope">Tu sueldo supera la base máxima de cotización (5.101,20 € al mes): cotizas por el tope y pagas además la pequeña cuota de solidaridad.</p>
+      <p class="nota oculto" id="nota-smi">Ojo: este sueldo está por debajo del salario mínimo de 2026 (17.094 € al año) para jornada completa.</p>
+      <div class="compartir"><button type="button" class="boton" id="compartir">Compartir este cálculo</button></div>
+    </div>
+  </div>
+
+  <div class="articulo-rejilla">
+  <article class="prosa">
+    <h2>Cómo se pasa del sueldo bruto al neto</h2>
+    <p>El <strong>sueldo bruto</strong> es lo que pactas con la empresa. El <strong>neto</strong> es lo que llega a tu cuenta, y sale de restar al bruto dos cosas:</p>
+    <ol>
+      <li><strong>Las cotizaciones a la Seguridad Social</strong>: un 6,50 % del sueldo si tu contrato es indefinido y un 6,55 % si es temporal. Pagan tu futura pensión, el paro y las bajas.</li>
+      <li><strong>La retención de IRPF</strong>: un adelanto del impuesto sobre la renta que la empresa ingresa en Hacienda por ti cada mes. El porcentaje depende de lo que ganas y de tu familia.</li>
+    </ol>
+    <p>Por ejemplo, con 30.000 € brutos al año, soltero y sin hijos, cobras <strong>{{tabla:neto-30000}} netos al mes</strong> en 14 pagas.</p>
+
+    <h2>Cuánto pagas a la Seguridad Social en 2026</h2>
+    <p>Las cotizaciones se calculan sobre tu sueldo mensual con las pagas extra repartidas en 12 meses. En 2026 la parte que pagas tú es esta:</p>
+    {{tabla:cotizacion-trabajador}}
+    <p>El <strong>MEI</strong> (Mecanismo de Equidad Intergeneracional) es una cotización nueva para reforzar la hucha de las pensiones. Sube un poco cada año hasta 2029. Si cobras más de 5.101,20 € al mes, cotizas por ese tope y pagas además la <strong>cotización de solidaridad</strong> sobre lo que lo supere: entre un 0,19 % y un 0,24 % a tu cargo.</p>
+
+    <h2>Cómo calcula la empresa tu retención de IRPF</h2>
+    <p>No es un porcentaje fijo por tramos, como se suele creer. La empresa sigue el procedimiento del Reglamento del IRPF (el mismo que usa el programa de la Agencia Tributaria):</p>
+    <ol>
+      <li>Parte de tu sueldo bruto anual y le resta lo que pagas a la Seguridad Social.</li>
+      <li>Resta 2.000 € de «otros gastos» que se aplican a todos los asalariados.</li>
+      <li>Si ganas poco, resta además la <strong>reducción por rendimientos del trabajo</strong>: 7.302 € si tu rendimiento neto es de 14.852 € o menos, y va bajando hasta desaparecer en 19.747,50 €.</li>
+      <li>Aplica la escala de retenciones a lo que queda.</li>
+      <li>Le resta lo que corresponde al <strong>mínimo personal y familiar</strong>: 5.550 € por ti (6.700 € desde los 65 años y 8.100 € desde los 75), 2.400 € por el primer hijo, 2.700 € por el segundo, 4.000 € por el tercero y 4.500 € desde el cuarto, más 2.800 € por cada hijo menor de 3 años.</li>
+      <li>Divide la cuota que sale entre tu sueldo bruto: ese es tu <strong>tipo de retención</strong>.</li>
+    </ol>
+    {{tabla:irpf-escala}}
+
+    <h3>Sueldos sin retención de IRPF</h3>
+    <p>Si tu sueldo no llega a ciertos importes, la empresa no te retiene nada. Además, si ganas poco más que ese límite, la retención no puede pasar del 43 % de lo que lo superes, para que el salto no sea brusco.</p>
+    {{tabla:irpf-limites}}
+    <p>Por eso con el salario mínimo de 2026 (1.221 € en 14 pagas) la retención es muy pequeña: un 3,06 % si estás soltero y sin hijos. El neto queda en <strong>{{tabla:smi-neto-mensual}} al mes</strong>.</p>
+
+    <h2>Tabla: cuánto se cobra neto en 2026</h2>
+    {{tabla:nomina-ejemplos}}
+
+    <h3>Cuánto cambia con hijos</h3>
+    <p>Los hijos bajan la retención porque aumentan el mínimo familiar. Si vivís los dos progenitores con ellos, cada uno aplica la mitad; si los crías solo o tu cónyuge no tiene ingresos, lo aplicas entero:</p>
+    {{tabla:nomina-hijos}}
+
+    <h2>¿Es mejor cobrar en 12 o en 14 pagas?</h2>
+    <p>Al año cobras lo mismo. Con 14 pagas las nóminas normales son más bajas, pero en verano y en Navidad recibes una paga extra completa. Las pagas extra salen algo más altas que una nómina normal porque solo llevan IRPF: la Seguridad Social ya se descuenta repartida en las 12 nóminas ordinarias.</p>
+
+    <h2>La retención no es lo que pagas de IRPF</h2>
+    <p>La retención es un adelanto. El impuesto real se calcula en la <strong>declaración de la Renta</strong>, entre abril y junio del año siguiente. Si te retuvieron de más, Hacienda te devuelve la diferencia; si fue de menos, pagas. Con un único sueldo y sin otros ingresos, la retención suele acercarse mucho a lo que pagas al final.</p>
+    <p>En 2026 hay una novedad para los sueldos bajos: una <strong>deducción de hasta 590,89 €</strong> para rendimientos del trabajo de 17.094 € o menos. Baja 20 céntimos por cada euro que ganes por encima y desaparece en 20.048,45 €. No se nota en la nómina: se aplica en la Renta de 2026, que se presenta en 2027.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <div class="faq">
+      <details>
+        <summary>¿Por qué mi nómina no coincide exactamente con la calculadora?</summary>
+        <div><p>La calculadora usa tu sueldo anual pactado. Tu nómina puede llevar horas extra, comisiones, pluses, retribución en especie (seguro médico, tickets) o días de baja. Además, la empresa recalcula la retención cuando cambia algo a mitad de año, y eso puede subir o bajar el IRPF de los meses que quedan.</p></div>
+      </details>
+      <details>
+        <summary>¿Puedo pedir que me retengan más IRPF?</summary>
+        <div><p>Sí. Puedes pedir por escrito a tu empresa un tipo de retención más alto que el que te corresponde, y lo mantendrá al menos hasta final de año. Es útil si tienes dos pagadores o ingresos extra y no quieres pagar de golpe en la Renta. Lo que no puedes es pedir que te retengan menos.</p></div>
+      </details>
+      <details>
+        <summary>Tengo dos trabajos, ¿qué cambia?</summary>
+        <div><p>Cada empresa calcula tu retención como si fuera tu único pagador, así que entre las dos suelen retenerte menos de lo que te toca pagar. Lo normal es que salga a pagar en la Renta. Para evitarlo, pide a una de las dos que te suba la retención.</p></div>
+      </details>
+      <details>
+        <summary>¿Qué es el MEI que aparece en mi nómina?</summary>
+        <div><p>El Mecanismo de Equidad Intergeneracional es una cotización que va a un fondo de reserva para pagar las pensiones futuras. En 2026 es un 0,90 % del sueldo: 0,75 % lo pone la empresa y 0,15 % tú.</p></div>
+      </details>
+      <details>
+        <summary>¿Cómo se calcula el sueldo neto si tengo una discapacidad?</summary>
+        <div><p>La discapacidad del trabajador o de sus familiares aumenta el mínimo y los gastos deducibles, así que la retención baja. Esta calculadora todavía no lo contempla: si es tu caso, tu retención real será algo menor que la que ves aquí.</p></div>
+      </details>
+    </div>
+
+    {{autoria}}
+
+    <div class="fuentes">
+      <p><strong>Fuentes y normativa</strong> (revisadas el {{actualizado}}):</p>
+      <ul>
+        <li>Bases y tipos de cotización de 2026 (Orden PJC/297/2026) y cotización de solidaridad (Real Decreto-ley 2/2023).</li>
+        <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764" rel="noopener">Ley 35/2006 del IRPF</a> (artículos 19, 20, 57 a 61 y 101) y <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2007-6820" rel="noopener">Reglamento del IRPF</a> (artículos 80 a 88).</li>
+        <li>Real Decreto 142/2024 (límites de retención), Real Decreto 126/2026 (salario mínimo de 2026) y Real Decreto-ley 5/2026 (deducción para sueldos bajos).</li>
+      </ul>
+      <p>El cálculo no incluye discapacidad, ascendientes a cargo, movilidad geográfica ni pensiones compensatorias. Si necesitas una cifra exacta, consulta el <a href="https://sede.agenciatributaria.gob.es/" rel="noopener">servicio de cálculo de retenciones de la Agencia Tributaria</a>.</p>
+    </div>
+  </article>
+  <aside class="indice">{{toc}}</aside>
+  </div>
+
+  <section class="relacionadas">
+    <h2>Otras calculadoras</h2>
+    <div class="tarjetas tarjetas-3">
+      <a class="tarjeta" href="/calculadora-finiquito/"><h3>Finiquito e indemnización</h3><p>Lo que te deben al dejar la empresa o si te despiden.</p><span class="tarjeta-cta">Calcular</span></a>
+      <a class="tarjeta" href="/calculadora-paro/"><h3>Paro 2026</h3><p>Cuánto cobrarás y durante cuántos meses.</p><span class="tarjeta-cta">Calcular</span></a>
+      <a class="tarjeta" href="/subida-pensiones-2027/"><h3>Pensiones 2027</h3><p>Cuánto subirá tu pensión con el último dato de IPC.</p><span class="tarjeta-cta">Calcular</span></a>
+    </div>
+  </section>
+</div>

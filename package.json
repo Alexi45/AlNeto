@@ -1,0 +1,15 @@
+{
+  "name": "alneto",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Calculadoras de dinero para España: sueldo neto, finiquito, paro y pensiones.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node serve.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

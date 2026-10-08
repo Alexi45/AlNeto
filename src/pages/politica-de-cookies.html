@@ -1,0 +1,48 @@
+---
+title: Política de cookies | AlNeto
+description: Qué cookies usa AlNeto, para qué sirven y cómo puedes configurarlas o retirar tu consentimiento.
+breadcrumb: Cookies
+updated: 2026-10-08
+---
+<section class="cabecera-pagina">
+  <div class="contenedor">
+    <nav class="migas" aria-label="Estás en"><a href="/">Inicio</a> › Política de cookies</nav>
+    <header class="intro">
+      <h1>Política de cookies</h1>
+    </header>
+  </div>
+</section>
+<div class="contenedor legal">
+
+  <h2>1. Qué son las cookies</h2>
+  <p>Son pequeños archivos que una web guarda en tu navegador para recordar información entre visitas. Algunas son necesarias para que la web funcione y otras sirven, por ejemplo, para mostrar publicidad.</p>
+
+  <h2>2. Cookies propias</h2>
+  <p>{{site.name}} no instala cookies propias. Las calculadoras funcionan sin guardar nada en tu navegador.</p>
+
+  <h2>3. Cookies de terceros: publicidad de Google</h2>
+  <p>Para financiar la web se muestran anuncios de Google AdSense (Google Ireland Limited). Google y sus socios pueden usar cookies para:</p>
+  <ul>
+    <li>Mostrar anuncios y limitar las veces que ves el mismo.</li>
+    <li>Medir el rendimiento de los anuncios y detectar fraude.</li>
+    <li>Mostrarte anuncios personalizados según tu navegación, solo si lo aceptas.</li>
+  </ul>
+  <p>Las cookies de publicidad solo se instalan después de que des tu consentimiento en el aviso que aparece en tu primera visita, gestionado por una plataforma de consentimiento certificada por Google. Si las rechazas, puede que veas anuncios no personalizados que solo usan cookies necesarias para limitar la frecuencia y evitar el fraude.</p>
+  <p>Puedes consultar la lista de cookies y socios en <a href="https://business.safety.google/adscookies/" rel="noopener">la información de Google sobre cookies publicitarias</a>.</p>
+
+  <h2>4. Cómo cambiar o retirar tu consentimiento</h2>
+  <ul>
+    <li>En cualquier momento, con el enlace <button type="button" class="enlace" data-cookies-pagina>Configurar cookies</button> (también está al pie de cada página).</li>
+    <li>Desde la configuración de anuncios de tu cuenta de Google: <a href="https://adssettings.google.com/" rel="noopener">adssettings.google.com</a>.</li>
+    <li>Borrando las cookies desde los ajustes de tu navegador.</li>
+  </ul>
+
+  <h2>5. Actualizaciones</h2>
+  <p>Esta política se revisó por última vez el {{actualizado}}.</p>
+</div>
+<script>
+  document.querySelector('[data-cookies-pagina]')?.addEventListener('click', () => {
+    if (window.googlefc?.callbackQueue) window.googlefc.callbackQueue.push(window.googlefc.showRevocationMessage);
+    else alert('El panel de consentimiento todavía no está activo en esta web.');
+  });
+</script>
