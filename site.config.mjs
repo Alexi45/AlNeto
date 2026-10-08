@@ -15,7 +15,7 @@ export default {
   },
   // Aviso legal (LSSI art. 10): obligatorio si la web tiene anuncios
   titular: {
-    nombre: 'PENDIENTE: nombre y apellidos completos',
+    nombre: 'Alejandro Riscart Rosado',
     nif: 'PENDIENTE: NIF',
     domicilio: 'PENDIENTE: domicilio (calle, CP, ciudad)',
   },
