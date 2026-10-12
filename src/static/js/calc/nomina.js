@@ -12,6 +12,9 @@ const cuotaEscala = (base) => {
   return cuota;
 };
 
+// Tipo de la escala que se aplica al último euro de la base (el «tramo» en el que estás).
+export const tipoMarginal = (base) => (IRPF.escala.find(({ hasta }) => base <= hasta) ?? IRPF.escala.at(-1)).tipo;
+
 export const reduccionRendimientosTrabajo = (rendimientoNeto) => {
   const { maximo, tramo1, tramo2, tramo3, base2 } = IRPF.reduccionTrabajo;
   if (rendimientoNeto <= tramo1) return maximo;
@@ -111,7 +114,15 @@ export function calcularNomina({
     netoMensual,
     netoPagaExtra,
     netoAnual,
-    irpf: { tipo: ret.tipo, anual: irpfAnual, motivo: ret.motivo, limiteExcluyente: ret.limite },
+    irpf: {
+      tipo: ret.tipo,
+      anual: irpfAnual,
+      motivo: ret.motivo,
+      limiteExcluyente: ret.limite,
+      base: ret.base ?? 0,
+      reduccion: ret.reduccion ?? 0,
+      tipoMarginal: tipoMarginal(ret.base ?? 0),
+    },
     ss: {
       mensual: ssMensual,
       anual: ssAnual,

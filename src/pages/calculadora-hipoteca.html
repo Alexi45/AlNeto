@@ -1,0 +1,166 @@
+---
+title: Calculadora de hipoteca 2026: cuota, intereses y Euríbor | AlNeto
+description: Calcula la cuota de tu hipoteca fija o variable con el Euríbor actual, los intereses totales, la tabla de amortización y cuánto te prestarían con tu sueldo.
+type: calculadora
+script: hipoteca
+breadcrumb: Hipoteca
+updated: 2026-10-13
+---
+<section class="cabecera-pagina">
+  <div class="contenedor">
+    <nav class="migas" aria-label="Estás en"><a href="/">Inicio</a> › Hipoteca</nav>
+    <header class="intro">
+      <h1>Calculadora de hipoteca 2026</h1>
+      <p class="lead">Calcula la cuota mensual de tu hipoteca fija o variable, cuánto pagarás de intereses y cuánto ahorro necesitas. Con el Euríbor de {{tabla:euribor-mes}} ({{tabla:euribor-actual}}).</p>
+      <p class="sello"><span>Euríbor oficial del Banco de España</span><span>Actualizado el {{actualizado}}</span><span>Tus datos no salen de tu navegador</span></p>
+    </header>
+  </div>
+</section>
+
+<div class="contenedor">
+  <div class="calc">
+    <form id="calculadora" class="panel" novalidate>
+      <h2>Tu hipoteca</h2>
+      <div class="campos">
+        <div class="campo">
+          <label for="precio">Precio de la vivienda</label>
+          <div class="entrada entrada-sufijo" data-sufijo="€"><input id="precio" name="precio" type="text" inputmode="decimal" value="220.000" autocomplete="off"></div>
+        </div>
+        <div class="campo">
+          <label for="ahorro">Ahorro que aportas</label>
+          <div class="entrada entrada-sufijo" data-sufijo="€"><input id="ahorro" name="ahorro" type="text" inputmode="decimal" value="44.000" autocomplete="off"></div>
+        </div>
+        <div class="campo campo-ancho">
+          <label for="anios">Plazo: <output id="salida-anios" for="anios">25 años</output></label>
+          <input class="rango" id="anios" name="anios" type="range" min="5" max="40" step="1" value="25">
+        </div>
+        <fieldset class="campo campo-ancho">
+          <legend>Tipo de interés</legend>
+          <div class="segmentos">
+            <label><input type="radio" name="modalidad" value="fija" checked><span>Fijo</span></label>
+            <label><input type="radio" name="modalidad" value="variable"><span>Variable (Euríbor)</span></label>
+          </div>
+        </fieldset>
+        <div class="campo" id="campo-tipo">
+          <label for="tipo">Interés fijo (TIN)</label>
+          <div class="entrada entrada-sufijo" data-sufijo="%"><input id="tipo" name="tipo" type="text" inputmode="decimal" value="2,9" autocomplete="off"></div>
+          <p class="ayuda">La media de las hipotecas fijas firmadas en {{tabla:mes-tipos}} fue del {{tabla:tipo-medio-fijo}}.</p>
+        </div>
+        <div class="campo oculto" id="campo-diferencial">
+          <label for="diferencial">Diferencial sobre el Euríbor</label>
+          <div class="entrada entrada-sufijo" data-sufijo="%"><input id="diferencial" name="diferencial" type="text" inputmode="decimal" value="0,75" autocomplete="off"></div>
+          <p class="ayuda">Euríbor actual: {{tabla:euribor-actual}}. Las mejores ofertas rondan el 0,5 %.</p>
+        </div>
+        <div class="campo">
+          <label for="ingresos">Ingresos netos del hogar al mes <span style="font-weight:400;color:var(--tinta-tenue)">(opcional)</span></label>
+          <div class="entrada entrada-sufijo" data-sufijo="€"><input id="ingresos" name="ingresos" type="text" inputmode="decimal" value="" placeholder="Ej.: 2.800" autocomplete="off"></div>
+        </div>
+      </div>
+    </form>
+
+    <div id="resultado" class="resultado" aria-live="polite">
+      <a class="resumen-movil escondido" href="#resultado" aria-hidden="true" tabindex="-1"><span>Cuota al mes</span><strong data-out="cuota">—</strong></a>
+      <div class="resultado-principal">
+        <p class="etiqueta">Tu cuota mensual</p>
+        <p class="cifra" data-out="cuota">—</p>
+        <p class="detalle" data-out="detalle">—</p>
+      </div>
+      <div class="panel">
+        <ul class="desglose">
+          <li><span>Importe del préstamo</span><span data-out="capital">—</span></li>
+          <li><span>Porcentaje financiado</span><span data-out="financiacion">—</span></li>
+          <li><span>Intereses totales</span><span data-out="intereses">—</span></li>
+          <li class="total"><span>Total a pagar al banco</span><span data-out="total">—</span></li>
+        </ul>
+        <ul class="desglose">
+          <li><span>Impuestos y gastos de compra (aprox.)</span><span data-out="gastos">—</span></li>
+          <li><span>Ahorro recomendado (20 % + gastos)</span><span data-out="ahorroNecesario">—</span></li>
+          <li id="linea-esfuerzo" class="oculto"><span>La cuota supone de tus ingresos</span><span data-out="esfuerzo">—</span></li>
+          <li id="linea-maximo" class="oculto"><span>Préstamo máximo con tus ingresos</span><span data-out="capitalMaximo">—</span></li>
+        </ul>
+      </div>
+      <div class="panel oculto" id="bloque-escenarios">
+        <h2>Si el Euríbor cambia</h2>
+        <div class="tabla-envoltura" style="margin:0"><table><tbody id="escenarios"></tbody></table></div>
+      </div>
+      <p class="nota oculto" id="nota-esfuerzo">La cuota pasa del 35 % de tus ingresos: la mayoría de bancos no la concederían, y lo recomendable es no superar el 30-35 %.</p>
+      <p class="nota oculto" id="nota-financiacion">Pides más del 80 % del precio. Los bancos suelen financiar como mucho el 80 % de la vivienda habitual, salvo programas de aval para jóvenes.</p>
+      <div class="compartir">
+        <button type="button" class="boton" id="compartir">Compartir este cálculo</button>
+        <button type="button" class="boton" id="imagen">Imagen para Stories</button>
+      </div>
+    </div>
+  </div>
+
+  <details class="panel amortizacion">
+    <summary><strong>Tabla de amortización año a año</strong></summary>
+    <div class="tabla-envoltura">
+      <table>
+        <thead><tr><th>Año</th><th class="n">Capital devuelto</th><th class="n">Intereses</th><th class="n">Deuda pendiente</th></tr></thead>
+        <tbody id="amortizacion"></tbody>
+      </table>
+    </div>
+  </details>
+
+  <div class="articulo-rejilla">
+  <article class="prosa">
+    <h2>Cómo se calcula la cuota de una hipoteca</h2>
+    <p>Casi todas las hipotecas en España usan el <strong>sistema francés</strong>: pagas la misma cuota cada mes, pero al principio casi todo son intereses y al final casi todo es capital. La fórmula es:</p>
+    <p><strong>Cuota = C × i ÷ (1 − (1 + i)<sup>−n</sup>)</strong>, donde C es el capital prestado, i el interés mensual (el TIN anual entre 12) y n el número de cuotas.</p>
+    <p>Por eso los primeros años la deuda baja muy despacio. Ábrelo en la tabla de amortización de arriba: con 176.000 € a 25 años al 2,9 %, el primer año pagas unos 5.000 € de intereses.</p>
+
+    <h2>Fija, variable o mixta</h2>
+    <ul>
+      <li><strong>Fija</strong>: la cuota no cambia nunca. Pagas algo más de interés a cambio de seguridad. En {{tabla:mes-tipos}} el tipo medio de las nuevas hipotecas fijas fue del {{tabla:tipo-medio-fijo}}, y ya son la mayoría.</li>
+      <li><strong>Variable</strong>: Euríbor + un diferencial, y se revisa cada 6 o 12 meses. El Euríbor de {{tabla:euribor-mes}} cerró en el {{tabla:euribor-actual}}, su nivel más alto en dos años, así que hoy una variable no sale más barata que una fija.</li>
+      <li><strong>Mixta</strong>: unos años a tipo fijo (normalmente 3 a 10) y luego variable.</li>
+    </ul>
+
+    <h2>Cuánto influye el tipo de interés</h2>
+    {{tabla:hipoteca-tipos}}
+    <p>Medio punto de diferencia son decenas de miles de euros a lo largo del préstamo. Por eso merece la pena comparar ofertas y fijarse en la <strong>TAE</strong>, que incluye comisiones y productos vinculados, no solo en el TIN.</p>
+
+    <h2>Cuánto influye el plazo</h2>
+    {{tabla:hipoteca-plazos}}
+
+    <h2>Cuánto ahorro necesitas para comprar</h2>
+    <p>Los bancos suelen financiar como mucho el <strong>80 % del precio de tasación o compraventa</strong> (el menor). El 20 % restante lo pones tú, más los impuestos y gastos de la compra: el ITP de tu comunidad autónoma en vivienda usada (entre el 6 % y el 10 %) o el IVA del 10 % y AJD en obra nueva, más notaría, registro y gestoría. En total, calcula alrededor de un <strong>30 % del precio</strong> en ahorros.</p>
+
+    <h2>Cuánto te prestan con tu sueldo</h2>
+    <p>La regla de los bancos es que la cuota no pase del <strong>30-35 % de tus ingresos netos</strong>. Pon tus ingresos en la calculadora y verás el préstamo máximo con ese límite. Si no sabes tu neto, calcúlalo en la <a href="/calculadora-sueldo-neto/">calculadora de sueldo neto</a>.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <div class="faq">
+      <details>
+        <summary>¿Qué es mejor, reducir cuota o reducir plazo al amortizar?</summary>
+        <div><p>Reducir plazo ahorra más intereses, porque dejas de pagar intereses durante los años que eliminas. Reducir cuota te da más margen cada mes. Si te lo puedes permitir, reducir plazo suele ser la opción más rentable.</p></div>
+      </details>
+      <details>
+        <summary>¿Qué diferencia hay entre TIN y TAE?</summary>
+        <div><p>El TIN es el interés que se aplica al préstamo. La TAE suma además las comisiones y el coste de los productos vinculados (seguros, nómina…), y sirve para comparar hipotecas entre bancos.</p></div>
+      </details>
+      <details>
+        <summary>¿Cuándo me afecta la subida del Euríbor?</summary>
+        <div><p>En la siguiente revisión de tu hipoteca variable (cada 6 o 12 meses según tu contrato). El banco usa el Euríbor oficial de uno o dos meses antes de la fecha de revisión.</p></div>
+      </details>
+    </div>
+
+    {{autoria}}
+
+    <div class="fuentes">
+      <p><strong>Fuentes</strong> (revisadas el {{actualizado}}): Euríbor a 12 meses publicado por el Banco de España ({{tabla:euribor-mes}}: {{tabla:euribor-actual}}); Estadística de Hipotecas del INE ({{tabla:mes-tipos}}); Ley 5/2019, reguladora de los contratos de crédito inmobiliario.</p>
+      <p>Los resultados son orientativos y no son una oferta de financiación. Los gastos de compra son una estimación (10 % del precio).</p>
+    </div>
+  </article>
+  <aside class="indice">{{toc}}</aside>
+  </div>
+
+  <section class="relacionadas">
+    <h2>Otras calculadoras</h2>
+    <div class="tarjetas tarjetas-3">
+      <a class="tarjeta" href="/calculadora-sueldo-neto/"><h3>Sueldo neto 2026</h3><p>Lo que te llega cada mes, para calcular tu esfuerzo.</p><span class="tarjeta-cta">Calcular</span></a>
+      <a class="tarjeta" href="/calculadora-subida-sueldo/"><h3>Subida de sueldo</h3><p>Cuánto te llega de verdad de una subida.</p><span class="tarjeta-cta">Calcular</span></a>
+      <a class="tarjeta" href="/calculadora-cuota-autonomos/"><h3>Cuota de autónomos</h3><p>Tu cuota de 2026 según tus ingresos reales.</p><span class="tarjeta-cta">Calcular</span></a>
+    </div>
+  </section>
+</div>

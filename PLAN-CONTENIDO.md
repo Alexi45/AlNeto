@@ -1,26 +1,27 @@
 # Plan de contenido y tráfico
 
-## 1. Guías que escribir antes de pedir AdSense
+## 1. Guías
 
-Ordenadas por búsquedas y por lo que pagan sus anuncios. Cada una enlaza a su calculadora. Copia el formato de `src/pages/guias/salario-minimo-2026-neto.html`.
+**Ya publicadas (10):** salario mínimo, despido objetivo o improcedente, retenciones IRPF 2026, paga extra de Navidad, cuánto se cobra de paro, dos pagadores, baja voluntaria, vacaciones no disfrutadas, cuánto me presta el banco y 12 o 14 pagas.
 
-| # | Guía | Calculadora |
-|---|---|---|
-| 1 | Cuánto se cobra de paro con 1.000, 1.500 o 2.000 € de sueldo | Paro |
-| 2 | Tabla IRPF 2026: cuánto te retienen según tu sueldo | Sueldo neto |
-| 3 | Cuándo se cobra la paga extra de Navidad y cuánto es | Sueldo neto |
-| 4 | Cuánto me quitan de la nómina: Seguridad Social e IRPF explicados | Sueldo neto |
-| 5 | Baja voluntaria: qué cobras y cuánto preaviso tienes que dar | Finiquito |
-| 6 | Cómo reclamar un finiquito mal calculado | Finiquito |
-| 7 | Vacaciones no disfrutadas: cuántas te pagan al irte | Finiquito |
-| 8 | Fin de contrato temporal: indemnización y paro | Finiquito y paro |
-| 9 | Cómo pedir el paro paso a paso (y el plazo de 15 días) | Paro |
-| 10 | Capitalizar el paro para hacerte autónomo | Paro |
-| 11 | Subsidio por desempleo 2026: requisitos y cuantías | Paro |
-| 12 | Cuándo se cobra la pensión de enero de 2027 | Pensiones |
-| 13 | Pensiones mínimas 2026: cuantías y complemento a mínimos | Pensiones |
-| 14 | 12 o 14 pagas: cuál te conviene | Sueldo neto |
-| 15 | Dos pagadores: cuándo tienes que hacer la Renta | Sueldo neto |
+**Siguientes** (una o dos por semana; copia el formato de cualquier guía de `src/pages/guias/`):
+
+| Guía | Calculadora |
+|---|---|
+| Cómo pedir el paro paso a paso | Paro |
+| Capitalizar el paro para hacerte autónomo | Paro y autónomos |
+| Subsidio por desempleo 2026 | Paro |
+| Tarifa plana de autónomos 2026 | Autónomos |
+| Hipoteca fija o variable en 2026 | Hipoteca |
+| Gastos de comprar una casa por comunidad autónoma (ITP) | Hipoteca |
+| Cuándo se cobra la pensión de enero de 2027 | Pensiones |
+| Pensiones mínimas 2026 y complemento a mínimos | Pensiones |
+| Fin de contrato temporal: indemnización y paro | Finiquito y paro |
+| Retribución flexible: cómo cobrar más sin pagar más IRPF | Sueldo neto |
+
+## Enlaces entrantes con el widget
+
+La calculadora de sueldo neto se puede incrustar en otras webs, y el código incluye un enlace a la tuya. Escribe a blogs de empleo, academias de oposiciones, gestorías y webs de recursos humanos ofreciéndoles el widget gratis. Cada web que lo ponga es un enlace que ayuda a posicionar.
 
 ## 2. Vídeos para TikTok, Reels y Shorts
 
@@ -40,8 +41,14 @@ Los enlaces pueden llevar los datos ya puestos, así quien entra ve el mismo res
 | «Pensiones 2027: la inflación de septiembre lo cambia todo» | `/subida-pensiones-2027/` |
 | «Tu pensión de 1.000 € en enero de 2027» | `/subida-pensiones-2027/?pension=1000` |
 | «Mismo sueldo, distinto neto: soltero vs con 2 hijos» | `/calculadora-sueldo-neto/?bruto=30000&hijos=2` |
+| «Me suben 2.000 € y solo me llegan 92 € al mes» | `/calculadora-subida-sueldo/?bruto=30000&subida=2000` |
+| «El Euríbor sube: así cambia tu hipoteca» | `/calculadora-hipoteca/?modalidad=variable` |
+| «Cuánto paga un autónomo que factura 3.000 € al mes» | `/calculadora-cuota-autonomos/?ingresos=36000&gastos=6000` |
+| «24.000 € brutos: lo que de verdad te llega» | `/sueldo-neto/24000-euros-brutos/` |
 
-Nombres de los parámetros: `bruto`, `pagas`, `contrato` (indefinido/temporal), `situacion` (1/2/3), `hijos`, `menores3`, `edad` · finiquito: `motivo`, `fechaInicio`, `fechaBaja`, `vacaciones`, `disfrutadas`, `devengo` · paro: `meses`, `hijos` · pensiones: `pension`, `pagas`, `ipc`.
+**Truco:** pulsa «Imagen para Stories» en cualquier calculadora. Tendrás la imagen del resultado lista para el vídeo o la historia, y lleva tu dominio.
+
+Nombres de los parámetros: `bruto`, `pagas`, `contrato` (indefinido/temporal), `situacion` (1/2/3), `hijos`, `menores3`, `edad` · finiquito: `motivo`, `fechaInicio`, `fechaBaja`, `vacaciones`, `disfrutadas`, `devengo` · paro: `meses`, `hijos` · pensiones: `pension`, `pagas`, `ipc` · subida: `bruto`, `modo` (euros/porcentaje), `subida` · hipoteca: `precio`, `ahorro`, `anios`, `modalidad` (fija/variable), `tipo`, `diferencial`, `ingresos` · autónomos: `ingresos`, `gastos`, `forma` (persona/societario), `primer` (si/no).
 
 **En cada red:**
 - **TikTok**: con cuenta personal necesitas 1.000 seguidores para poner el enlace en el perfil. Hasta entonces, pon el dominio en el vídeo y en la descripción.

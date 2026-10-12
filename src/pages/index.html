@@ -3,7 +3,7 @@ title: AlNeto: calculadoras de sueldo, finiquito, paro y pensiones
 description: Calculadoras gratuitas para España con las cifras oficiales de 2026: sueldo neto, finiquito e indemnización, paro y subida de las pensiones en 2027. Sin registro.
 type: home
 script: inicio
-updated: 2026-10-08
+updated: 2026-10-13
 ---
 <section class="hero">
   <div class="contenedor hero-rejilla">
@@ -97,6 +97,34 @@ updated: 2026-10-08
         <p class="tarjeta-dato">Subida prevista: <b>+3,5 %</b> en enero</p>
         <span class="tarjeta-cta">Calcular mi pensión</span>
       </a>
+      <a class="tarjeta" href="/calculadora-hipoteca/">
+        <span class="tarjeta-icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></span>
+        <h3>Hipoteca</h3>
+        <p>Cuota fija o variable con el Euríbor actual, intereses y cuánto te prestan.</p>
+        <p class="tarjeta-dato">Euríbor de {{tabla:euribor-mes}}: <b>{{tabla:euribor-actual}}</b></p>
+        <span class="tarjeta-cta">Calcular mi hipoteca</span>
+      </a>
+      <a class="tarjeta" href="/calculadora-cuota-autonomos/">
+        <span class="tarjeta-icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg></span>
+        <h3>Cuota de autónomos</h3>
+        <p>Tu tramo y tu cuota de 2026 según tus ingresos reales, y la tarifa plana.</p>
+        <p class="tarjeta-dato">Cuota mínima: <b>205,88 €</b> al mes</p>
+        <span class="tarjeta-cta">Calcular mi cuota</span>
+      </a>
+      <a class="tarjeta" href="/calculadora-subida-sueldo/">
+        <span class="tarjeta-icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span>
+        <h3>Subida de sueldo</h3>
+        <p>Cuánto te llega de verdad de una subida después de IRPF y cotizaciones.</p>
+        <p class="tarjeta-dato">2.000 € más con 30.000 € → <b>+91,88 €</b> al mes</p>
+        <span class="tarjeta-cta">Calcular mi subida</span>
+      </a>
+      <a class="tarjeta" href="/sueldo-neto/">
+        <span class="tarjeta-icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></svg></span>
+        <h3>Tabla de sueldos 2026</h3>
+        <p>El neto de cada sueldo bruto, de 14.000 a 150.000 €, con su desglose.</p>
+        <p class="tarjeta-dato">59 sueldos, cada uno con su página</p>
+        <span class="tarjeta-cta">Ver la tabla</span>
+      </a>
     </div>
   </div>
 </section>
@@ -122,18 +150,29 @@ updated: 2026-10-08
       <h2>Lo que conviene saber de tu dinero</h2>
       <p>Explicaciones claras, con ejemplos y cifras de 2026.</p>
     </div>
-    <div class="tarjetas">
-      <a class="tarjeta" href="/guias/salario-minimo-2026-neto/">
-        <h3>Salario mínimo 2026: cuánto es neto al mes</h3>
-        <p>Cuánto queda limpio de los 1.221 € y cómo recuperar el IRPF en la Renta.</p>
+    <div class="tarjetas tarjetas-4">
+      <a class="tarjeta" href="/guias/tabla-retenciones-irpf-2026/">
+        <h3>Tabla de retenciones IRPF 2026</h3>
+        <p>Cuánto te retienen según tu sueldo, tus hijos y tu situación familiar.</p>
         <span class="tarjeta-cta">Leer la guía</span>
       </a>
-      <a class="tarjeta" href="/guias/despido-objetivo-o-improcedente/">
-        <h3>Despido objetivo o improcedente</h3>
-        <p>Diferencias, cuánto se cobra en cada caso y qué hacer los primeros 20 días.</p>
+      <a class="tarjeta" href="/guias/paga-extra-navidad-2026/">
+        <h3>Paga extra de Navidad 2026</h3>
+        <p>Cuándo se cobra, cuánto es en neto y qué te toca si no llevas el año entero.</p>
+        <span class="tarjeta-cta">Leer la guía</span>
+      </a>
+      <a class="tarjeta" href="/guias/cuanto-me-presta-el-banco/">
+        <h3>Cuánto me presta el banco</h3>
+        <p>El préstamo máximo según tus ingresos y el ahorro que necesitas.</p>
+        <span class="tarjeta-cta">Leer la guía</span>
+      </a>
+      <a class="tarjeta" href="/guias/salario-minimo-2026-neto/">
+        <h3>Salario mínimo 2026 en neto</h3>
+        <p>1.221 € brutos en 14 pagas: cuánto queda limpio y cómo recuperar el IRPF.</p>
         <span class="tarjeta-cta">Leer la guía</span>
       </a>
     </div>
+    <p class="seccion-pie"><a class="boton" href="/guias/">Ver las 10 guías</a></p>
   </div>
 </section>
 

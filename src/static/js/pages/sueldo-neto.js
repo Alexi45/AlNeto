@@ -1,5 +1,5 @@
 import { calcularNomina } from '../calc/nomina.js';
-import { eur, pct, numero, entero, pintar, mostrar, marcarInvalido, conectarFormulario, activarCompartir, VACIO } from '../ui.js';
+import { eur, pct, numero, entero, pintar, mostrar, marcarInvalido, conectarFormulario, activarCompartir, activarImagen, VACIO } from '../ui.js';
 
 const form = document.getElementById('calculadora');
 const res = document.getElementById('resultado');
@@ -63,3 +63,28 @@ conectarFormulario(form, (d) => {
 
 activarCompartir($('compartir'), form, () =>
   ultimo ? `Con ${eur(ultimo.brutoAnual, { entero: true })} brutos al año cobro ${eur(ultimo.netoMensual)} netos al mes. Calcula el tuyo:` : 'Calcula tu sueldo neto:');
+
+activarImagen($('imagen'), () => ultimo && {
+  titulo: 'Mi sueldo neto 2026',
+  etiqueta: 'Me llegan cada mes',
+  cifra: eur(ultimo.netoMensual),
+  detalle: `con ${eur(ultimo.brutoAnual, { entero: true })} brutos al año en ${ultimo.pagas} pagas`,
+  filas: [
+    ['Retención de IRPF', pct(ultimo.irpf.tipo)],
+    ['Seguridad Social al mes', eur(ultimo.ss.mensual)],
+    ['Neto al año', eur(ultimo.netoAnual, { entero: true })],
+  ],
+});
+
+// Copiar el código para incrustar la calculadora en otra web (solo en la página normal)
+$('copiar-codigo')?.addEventListener('click', async (e) => {
+  const area = $('codigo-incrustar');
+  try {
+    await navigator.clipboard.writeText(area.value);
+    e.target.textContent = '¡Código copiado!';
+  } catch {
+    area.select();
+    e.target.textContent = 'Selecciónalo y cópialo';
+  }
+  setTimeout(() => { e.target.textContent = 'Copiar el código'; }, 2200);
+});

@@ -19,101 +19,7 @@ updated: 2026-10-08
 
 <div class="contenedor">
 
-  <div class="calc">
-    <form id="calculadora" class="panel" novalidate>
-      <h2>Tus datos</h2>
-      <div class="campos">
-        <div class="campo campo-ancho">
-          <label for="bruto">Salario bruto anual</label>
-          <div class="entrada entrada-sufijo" data-sufijo="€">
-            <input id="bruto" name="bruto" type="text" inputmode="decimal" value="30.000" autocomplete="off" aria-describedby="ayuda-bruto">
-          </div>
-          <p class="ayuda" id="ayuda-bruto">Lo que pone en tu contrato, sumando las pagas extra.</p>
-        </div>
-
-        <fieldset class="campo">
-          <legend>Número de pagas</legend>
-          <div class="segmentos">
-            <label><input type="radio" name="pagas" value="14" checked><span>14</span></label>
-            <label><input type="radio" name="pagas" value="12"><span>12</span></label>
-          </div>
-        </fieldset>
-
-        <fieldset class="campo">
-          <legend>Contrato</legend>
-          <div class="segmentos">
-            <label><input type="radio" name="contrato" value="indefinido" checked><span>Indefinido</span></label>
-            <label><input type="radio" name="contrato" value="temporal"><span>Temporal</span></label>
-          </div>
-        </fieldset>
-
-        <div class="campo campo-ancho">
-          <label for="situacion">Situación familiar</label>
-          <select id="situacion" name="situacion">
-            <option value="3">Soltero/a, o en pareja y los dos con ingresos</option>
-            <option value="2">Casado/a, y mi cónyuge gana menos de 1.500 € al año</option>
-            <option value="1">Familia monoparental (crío solo/a a mis hijos)</option>
-          </select>
-        </div>
-
-        <div class="campo">
-          <label for="hijos">Hijos menores de 25</label>
-          <select id="hijos" name="hijos">
-            <option value="0">Ninguno</option><option value="1">1</option><option value="2">2</option>
-            <option value="3">3</option><option value="4">4</option><option value="5">5 o más</option>
-          </select>
-        </div>
-
-        <div class="campo oculto" id="campo-menores3">
-          <label for="menores3">De ellos, menores de 3</label>
-          <select id="menores3" name="menores3">
-            <option value="0">Ninguno</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
-          </select>
-        </div>
-
-        <div class="campo">
-          <label for="edad">Tu edad</label>
-          <select id="edad" name="edad">
-            <option value="menos65">Menos de 65</option>
-            <option value="65a74">De 65 a 74</option>
-            <option value="75omas">75 o más</option>
-          </select>
-        </div>
-      </div>
-    </form>
-
-    <div id="resultado" class="resultado" aria-live="polite">
-      <a class="resumen-movil escondido" href="#resultado" aria-hidden="true" tabindex="-1"><span>Tu sueldo neto al mes</span><strong data-out="netoMensual">—</strong></a>
-      <div class="resultado-principal">
-        <p class="etiqueta">Tu sueldo neto</p>
-        <p class="cifra" data-out="netoMensual">—</p>
-        <p class="detalle"><span data-out="pagasTexto">al mes en 14 pagas</span><span id="detalle-extra"> · pagas extra de <strong data-out="pagaExtra">—</strong></span></p>
-      </div>
-
-      <div class="panel">
-        <div class="barra" aria-hidden="true"><span class="b-neto" id="b-neto"></span><span class="b-irpf" id="b-irpf"></span><span class="b-ss" id="b-ss"></span></div>
-        <ul class="desglose">
-          <li><span>Bruto de cada nómina</span><span data-out="brutoPaga">—</span></li>
-          <li><span><i class="punto" style="background:var(--irpf)"></i>Retención IRPF (<span data-out="irpfTipo">—</span>)</span><span data-out="irpfPaga">—</span></li>
-          <li><span><i class="punto" style="background:var(--ss)"></i>Seguridad Social (<span data-out="ssTipo">—</span>)</span><span data-out="ssPaga">—</span></li>
-          <li class="total"><span><i class="punto" style="background:var(--marca)"></i>Neto al mes</span><span data-out="netoMensual">—</span></li>
-        </ul>
-        <ul class="desglose" style="margin-top:12px">
-          <li><span>Neto al año</span><span data-out="netoAnual">—</span></li>
-          <li id="linea-extra"><span>Paga extra (junio y diciembre)</span><span data-out="pagaExtra">—</span></li>
-          <li><span>IRPF retenido al año</span><span data-out="irpfAnual">—</span></li>
-          <li><span>Seguridad Social al año</span><span data-out="ssAnual">—</span></li>
-        </ul>
-      </div>
-
-      <p class="nota nota-ok oculto" id="nota-exento">Con este sueldo la empresa no te retiene IRPF: estás por debajo del límite de <strong data-out="limite">—</strong> al año para tu situación.</p>
-      <p class="nota oculto" id="nota-temporal">En contratos de menos de un año la retención mínima es del 2 %.</p>
-      <p class="nota nota-ok oculto" id="nota-deduccion">Con la nueva deducción para sueldos bajos, en la Renta de 2026 Hacienda podría devolverte hasta <strong data-out="deduccion">—</strong> de lo retenido.</p>
-      <p class="nota oculto" id="nota-tope">Tu sueldo supera la base máxima de cotización (5.101,20 € al mes): cotizas por el tope y pagas además la pequeña cuota de solidaridad.</p>
-      <p class="nota oculto" id="nota-smi">Ojo: este sueldo está por debajo del salario mínimo de 2026 (17.094 € al año) para jornada completa.</p>
-      <div class="compartir"><button type="button" class="boton" id="compartir">Compartir este cálculo</button></div>
-    </div>
-  </div>
+  {{parcial:calc-sueldo-neto}}
 
   <div class="articulo-rejilla">
   <article class="prosa">
@@ -199,6 +105,14 @@ updated: 2026-10-08
   </article>
   <aside class="indice">{{toc}}</aside>
   </div>
+
+  <section class="incrustar panel">
+    <h2>Pon esta calculadora en tu web</h2>
+    <p>¿Tienes un blog, una web de empleo o una gestoría? Copia este código y tus lectores podrán calcular su sueldo neto sin salir de tu página. Es gratis y se actualiza sola cada año.</p>
+    <textarea id="codigo-incrustar" readonly rows="4" aria-label="Código para incrustar la calculadora">&lt;iframe src="{{site.url}}/embed/sueldo-neto/" title="Calculadora de sueldo neto 2026" width="100%" height="1450" style="border:0;max-width:760px" loading="lazy"&gt;&lt;/iframe&gt;
+&lt;p style="font-size:14px"&gt;Calculadora de &lt;a href="{{site.url}}/calculadora-sueldo-neto/"&gt;sueldo neto 2026&lt;/a&gt; de {{site.name}}&lt;/p&gt;</textarea>
+    <button type="button" class="boton" id="copiar-codigo">Copiar el código</button>
+  </section>
 
   <section class="relacionadas">
     <h2>Otras calculadoras</h2>

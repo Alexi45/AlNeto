@@ -1,5 +1,5 @@
 import { calcularPension, subidaPrevista } from '../calc/pensiones.js';
-import { eur, pct, numero, pintar, mostrar, marcarInvalido, conectarFormulario, activarCompartir, VACIO } from '../ui.js';
+import { eur, pct, numero, pintar, mostrar, marcarInvalido, conectarFormulario, activarCompartir, activarImagen, VACIO } from '../ui.js';
 
 const form = document.getElementById('calculadora');
 const res = document.getElementById('resultado');
@@ -37,3 +37,14 @@ conectarFormulario(form, (d) => {
 
 activarCompartir($('compartir'), form, () =>
   ultimo ? `Con la subida prevista, mi pensión pasaría a ${eur(ultimo.nueva)} en 2027. Calcula la tuya:` : 'Calcula tu pensión de 2027:');
+
+activarImagen($('imagen'), () => ultimo && {
+  titulo: 'Mi pensión en 2027',
+  etiqueta: 'Cobraré al mes',
+  cifra: eur(ultimo.nueva),
+  detalle: `con una subida del ${pct(ultimo.subida * 100, 1)} en enero de 2027`,
+  filas: [
+    ['Más en cada paga', `+ ${eur(ultimo.subidaPorPaga)}`],
+    ['Más en todo el año', `+ ${eur(ultimo.subidaAnual)}`],
+  ],
+});

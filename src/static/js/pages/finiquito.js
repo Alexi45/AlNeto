@@ -1,5 +1,5 @@
 import { calcularFiniquito } from '../calc/finiquito.js';
-import { eur, numero, pintar, mostrar, marcarInvalido, conectarFormulario, activarCompartir, VACIO } from '../ui.js';
+import { eur, numero, pintar, mostrar, marcarInvalido, conectarFormulario, activarCompartir, activarImagen, VACIO } from '../ui.js';
 
 const form = document.getElementById('calculadora');
 const res = document.getElementById('resultado');
@@ -86,3 +86,15 @@ conectarFormulario(form, (d) => {
 });
 
 activarCompartir($('compartir'), form, () => (ultimo ? `Mi finiquito sale en ${eur(ultimo.total)}. Calcula el tuyo:` : 'Calcula tu finiquito:'));
+
+activarImagen($('imagen'), () => ultimo && {
+  titulo: 'Mi finiquito',
+  etiqueta: 'Total a cobrar (bruto)',
+  cifra: eur(ultimo.total),
+  detalle: ultimo.indemnizacion.importe > 0 ? `finiquito + indemnización por ${ultimo.indemnizacion.motivo.toLowerCase()}` : 'finiquito: salario, vacaciones y pagas extra',
+  filas: [
+    ['Finiquito', eur(ultimo.totalFiniquito)],
+    ['Indemnización', eur(ultimo.indemnizacion.importe)],
+    ['Vacaciones pendientes', dias(ultimo.vacaciones.pendientes)],
+  ],
+});

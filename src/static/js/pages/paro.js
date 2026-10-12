@@ -1,5 +1,5 @@
 import { calcularParo } from '../calc/paro.js';
-import { eur, numero, entero, pintar, mostrar, marcarInvalido, conectarFormulario, activarCompartir, VACIO } from '../ui.js';
+import { eur, numero, entero, pintar, mostrar, marcarInvalido, conectarFormulario, activarCompartir, activarImagen, VACIO } from '../ui.js';
 
 const form = document.getElementById('calculadora');
 const res = document.getElementById('resultado');
@@ -52,3 +52,14 @@ conectarFormulario(form, (d) => {
 
 activarCompartir($('compartir'), form, () =>
   ultimo?.tieneDerecho ? `Me quedarían ${eur(ultimo.primeros180.bruto)} al mes de paro durante ${ultimo.meses} meses. Calcula el tuyo:` : 'Calcula cuánto paro te queda:');
+
+activarImagen($('imagen'), () => ultimo?.tieneDerecho && {
+  titulo: 'Mi paro 2026',
+  etiqueta: 'Cobraré al mes',
+  cifra: eur(ultimo.primeros180.bruto),
+  detalle: `durante ${ultimo.meses % 1 === 0 ? ultimo.meses : ultimo.meses.toFixed(1)} meses (${ultimo.dias} días)`,
+  filas: [
+    ['Desde el mes 7', ultimo.desde181 ? eur(ultimo.desde181.bruto) : '—'],
+    ['Total de la prestación', eur(ultimo.totalBruto)],
+  ],
+});

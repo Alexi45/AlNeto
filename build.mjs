@@ -9,7 +9,8 @@ const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const SRC = path.join(ROOT, 'src');
 const FINAL = path.join(ROOT, 'dist');
 // Se genera en una carpeta temporal y solo sustituye a dist/ si todo ha ido bien.
-const OUT = path.join(ROOT, '.dist-tmp');
+// Cada build usa su propia carpeta para que dos builds simultáneos no se pisen.
+let OUT;
 
 const leerFrontMatter = (raw) => {
   const m = raw.match(/^---\n([\s\S]*?)\n---\n?/);
@@ -81,6 +82,7 @@ const indexarArticulo = (html) => {
 const hash = (s) => createHash('sha1').update(s).digest('hex').slice(0, 8);
 
 export async function build({ silencioso = false } = {}) {
+  OUT = path.join(ROOT, `.dist-tmp-${process.pid}-${Date.now()}`);
   // Import con marca de tiempo para que el servidor de desarrollo coja los cambios.
   const v = `?t=${Date.now()}`;
   const config = (await import(pathToFileURL(path.join(ROOT, 'site.config.mjs')).href + v)).default;
@@ -104,10 +106,29 @@ export async function build({ silencioso = false } = {}) {
 
   const avisos = new Set();
   const sitemap = [];
-  const paginas = await listarPaginas(path.join(SRC, 'pages'));
+  const paginas = [];
+  for (const rel of await listarPaginas(path.join(SRC, 'pages'))) {
+    paginas.push({ rel, raw: await readFile(path.join(SRC, 'pages', rel), 'utf8') });
+  }
+  // Generadores: src/generadores/*.mjs exportan paginas() → [{ rel, raw }] con el mismo
+  // formato que un archivo de src/pages (cabecera --- + HTML).
+  for (const f of (await readdir(path.join(SRC, 'generadores')).catch(() => [])).filter((n) => n.endsWith('.mjs'))) {
+    const generador = await import(pathToFileURL(path.join(SRC, 'generadores', f)).href + v);
+    paginas.push(...(await generador.paginas()));
+  }
 
-  for (const rel of paginas) {
-    const raw = await readFile(path.join(SRC, 'pages', rel), 'utf8');
+  // Fragmentos reutilizables: {{parcial:nombre}} → src/parciales/nombre.html
+  const parciales = {};
+  for (const f of (await readdir(path.join(SRC, 'parciales')).catch(() => [])).filter((n) => n.endsWith('.html'))) {
+    parciales[f.replace(/\.html$/, '')] = await readFile(path.join(SRC, 'parciales', f), 'utf8');
+  }
+
+  const plantillas = {
+    normal: layout,
+    embed: await readFile(path.join(SRC, 'layout-embed.html'), 'utf8'),
+  };
+
+  for (const { rel, raw } of paginas) {
     const { meta, body } = leerFrontMatter(raw);
     for (const k of ['title', 'description']) {
       if (meta[k]) meta[k] = meta[k].replace(/\{\{([\w.]+)\}\}/g, (todo, c) => valor(config, c) ?? todo);
@@ -184,6 +205,10 @@ export async function build({ silencioso = false } = {}) {
 
     const sustituir = (texto) =>
       texto
+        .replace(/\{\{parcial:([\w-]+)\}\}/g, (_, nombre) => {
+          if (parciales[nombre] === undefined) throw new Error(`Parcial desconocido "${nombre}" en ${rel}`);
+          return parciales[nombre];
+        })
         .replace(/\{\{tabla:([\w-]+)\}\}/g, (_, nombre) => {
           if (!tablas[nombre]) throw new Error(`Tabla desconocida "${nombre}" en ${rel}`);
           return tablas[nombre]();
@@ -203,8 +228,12 @@ export async function build({ silencioso = false } = {}) {
       ? `<nav aria-label="En esta página"><p class="indice-titulo">En esta página</p><ol>${entradas
         .map((e) => `<li><a href="#${e.id}">${e.texto}</a></li>`).join('')}</ol></nav>${llamada}`
       : '';
-    let html = sustituir(layout.replace('{{content}}', '%%CONTENIDO%%'))
+    const plantilla = plantillas[meta.layout || 'normal'];
+    if (!plantilla) throw new Error(`Plantilla desconocida "${meta.layout}" en ${rel}`);
+    let html = sustituir(plantilla.replace('{{content}}', '%%CONTENIDO%%'))
       .replace('%%CONTENIDO%%', () => cuerpo.replace('%%INDICE%%', () => indice));
+    // Espacio que no se parte entre una cifra y su unidad («24.000 €», «16,42 %»)
+    html = html.replace(/(\d) (€|%)/g, '$1\u00a0$2');
     // Marca el enlace de la página actual en la navegación
     html = html.replace(new RegExp(`(<a class="nav-link" href="${url}")`, 'g'), '$1 aria-current="page"');
 

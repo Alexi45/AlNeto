@@ -1,0 +1,144 @@
+---
+title: Calculadora cuota de autónomos 2026 por ingresos reales | AlNeto
+description: Calcula tu cuota de autónomos de 2026 según tus rendimientos netos: tramo, base mínima, tarifa plana y cuota de societarios. Con la tabla oficial de la Orden PJC/297/2026.
+type: calculadora
+script: autonomos
+breadcrumb: Cuota de autónomos
+updated: 2026-10-13
+---
+<section class="cabecera-pagina">
+  <div class="contenedor">
+    <nav class="migas" aria-label="Estás en"><a href="/">Inicio</a> › Cuota de autónomos</nav>
+    <header class="intro">
+      <h1>Calculadora de la cuota de autónomos 2026</h1>
+      <p class="lead">Desde 2023 los autónomos cotizan según lo que ganan de verdad. Pon tus ingresos y gastos del año y verás tu tramo, tu cuota mínima y la que pagarías con la tarifa plana.</p>
+      <p class="sello"><span>Tabla oficial de 2026 (Orden PJC/297/2026)</span><span>Actualizado el {{actualizado}}</span><span>Tus datos no salen de tu navegador</span></p>
+    </header>
+  </div>
+</section>
+
+<div class="contenedor">
+  <div class="calc">
+    <form id="calculadora" class="panel" novalidate>
+      <h2>Tu actividad</h2>
+      <div class="campos">
+        <div class="campo">
+          <label for="ingresos">Ingresos al año</label>
+          <div class="entrada entrada-sufijo" data-sufijo="€"><input id="ingresos" name="ingresos" type="text" inputmode="decimal" value="36.000" autocomplete="off"></div>
+          <p class="ayuda">Lo que facturas, sin IVA.</p>
+        </div>
+        <div class="campo">
+          <label for="gastos">Gastos deducibles al año</label>
+          <div class="entrada entrada-sufijo" data-sufijo="€"><input id="gastos" name="gastos" type="text" inputmode="decimal" value="6.000" autocomplete="off"></div>
+          <p class="ayuda">Sin contar la propia cuota de autónomos.</p>
+        </div>
+        <fieldset class="campo campo-ancho">
+          <legend>¿Cómo trabajas?</legend>
+          <div class="segmentos">
+            <label><input type="radio" name="forma" value="persona" checked><span>Por mi cuenta</span></label>
+            <label><input type="radio" name="forma" value="societario"><span>Con una sociedad</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="campo campo-ancho">
+          <legend>¿Es tu primer año de autónomo?</legend>
+          <div class="segmentos">
+            <label><input type="radio" name="primer" value="no" checked><span>No</span></label>
+            <label><input type="radio" name="primer" value="si"><span>Sí, me doy de alta</span></label>
+          </div>
+        </fieldset>
+      </div>
+    </form>
+
+    <div id="resultado" class="resultado" aria-live="polite">
+      <a class="resumen-movil escondido" href="#resultado" aria-hidden="true" tabindex="-1"><span>Cuota al mes</span><strong data-out="cuota">—</strong></a>
+      <div class="resultado-principal">
+        <p class="etiqueta">Tu cuota de autónomo</p>
+        <p class="cifra" data-out="cuota">—</p>
+        <p class="detalle" data-out="detalle">—</p>
+      </div>
+      <div class="panel">
+        <ul class="desglose">
+          <li><span>Rendimiento neto al año</span><span data-out="rendimiento">—</span></li>
+          <li class="sub"><span>Menos gastos genéricos (<span data-out="deduccion">7 %</span>), al mes</span><span data-out="computable">—</span></li>
+          <li><span>Tramo</span><span data-out="tramo">—</span></li>
+          <li><span>Base mínima de tu tramo</span><span data-out="base">—</span></li>
+          <li><span>Cuota mínima (31,5 %)</span><span data-out="cuotaMinima">—</span></li>
+          <li><span>Cuota si eliges la base máxima</span><span data-out="cuotaMaxima">—</span></li>
+          <li class="total"><span>Total al año</span><span data-out="anual">—</span></li>
+        </ul>
+      </div>
+      <p class="nota nota-ok oculto" id="nota-tarifa">El primer año pagas la tarifa plana: 80 € al mes más el MEI, sea cual sea tu rendimiento. Si en el primer año ganas menos que el salario mínimo (17.094 €), puedes pedir 12 meses más.</p>
+      <p class="nota oculto" id="nota-societario">Los autónomos societarios no pueden cotizar por debajo de 1.424,40 € de base en 2026, aunque su tramo sea más bajo.</p>
+      <p class="nota oculto" id="nota-tarifa-societario">La tarifa plana para autónomos societarios es un tema discutido y la Seguridad Social suele denegarla: la calculadora no la aplica. Consúltalo con tu gestoría.</p>
+      <div class="compartir">
+        <button type="button" class="boton" id="compartir">Compartir este cálculo</button>
+        <button type="button" class="boton" id="imagen">Imagen para Stories</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="articulo-rejilla">
+  <article class="prosa">
+    <h2>Cómo funciona la cuota por ingresos reales</h2>
+    <ol>
+      <li>Calculas tu <strong>rendimiento neto</strong>: ingresos menos gastos deducibles, sin restar la cuota de autónomos.</li>
+      <li>Le restas un <strong>7 % de gastos genéricos</strong> (3 % si eres autónomo societario).</li>
+      <li>Lo divides entre 12 y miras en qué <strong>tramo</strong> cae.</li>
+      <li>Eliges una base de cotización entre la mínima y la máxima de tu tramo, y le aplicas el <strong>31,5 %</strong>.</li>
+    </ol>
+    <p>Como no sabes al principio cuánto vas a ganar, eliges tu tramo con una previsión. Al año siguiente, la Seguridad Social compara con lo que declaras a Hacienda y te <strong>devuelve o te reclama la diferencia</strong>. Puedes cambiar de tramo hasta seis veces al año si tus ingresos cambian.</p>
+
+    <h2>Tabla de cuotas de autónomos 2026</h2>
+    {{tabla:autonomos-tramos}}
+    <p>En 2026 los tramos y las bases son los mismos que en 2025, pero la cuota sube algo porque el MEI pasa del 0,8 % al 0,9 %. La cuota mínima va de 205,88 € a 607,35 € al mes.</p>
+
+    <h2>Qué incluye el 31,5 %</h2>
+    <ul>
+      <li>Contingencias comunes (jubilación, incapacidad temporal…): 28,30 %.</li>
+      <li>Contingencias profesionales (accidentes de trabajo): 1,30 %.</li>
+      <li>Cese de actividad (el «paro» de los autónomos): 0,90 %.</li>
+      <li>Formación profesional: 0,10 %.</li>
+      <li>Mecanismo de Equidad Intergeneracional (MEI): 0,90 %.</li>
+    </ul>
+
+    <h2>Tarifa plana para nuevos autónomos</h2>
+    <p>Si te das de alta por primera vez (o no has sido autónomo en los dos años anteriores), pagas una <strong>cuota reducida de 80 € al mes más el MEI</strong>, unos 88,65 € en total, durante 12 meses, ganes lo que ganes. Si tus rendimientos de ese primer año no superan el salario mínimo, puedes pedir otros 12 meses antes de que termine el primero.</p>
+
+    <h2>¿Me conviene cotizar por más de la base mínima?</h2>
+    <p>Cotizar por una base más alta cuesta más cada mes, pero mejora lo que cobrarás si estás de baja, si cierras el negocio (cese de actividad) y, sobre todo, tu <strong>pensión de jubilación</strong>, que se calcula con tus bases de cotización. Si tus ingresos te lo permiten, subir algo la base en los últimos años de vida laboral es especialmente rentable.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <div class="faq">
+      <details>
+        <summary>¿Qué gastos cuentan como deducibles?</summary>
+        <div><p>Los que están vinculados a tu actividad y puedes justificar con factura: alquiler del local, suministros (si trabajas en casa, una parte), material, software, gestoría, publicidad, seguros del negocio… Los mismos que restas en el IRPF.</p></div>
+      </details>
+      <details>
+        <summary>¿Y si gano menos de lo que estimé?</summary>
+        <div><p>La Seguridad Social te devolverá lo que hayas pagado de más, normalmente durante el año siguiente, cuando tenga tus datos de Hacienda. Si ganaste más, te reclamará la diferencia sin recargo si la pagas en plazo.</p></div>
+      </details>
+      <details>
+        <summary>¿Cuánto paga un autónomo societario?</summary>
+        <div><p>Cotiza según su tramo, pero con una base mínima de 1.424,40 € en 2026, la del grupo 7 del Régimen General. Eso supone al menos unos 448,69 € al mes.</p></div>
+      </details>
+    </div>
+
+    {{autoria}}
+
+    <div class="fuentes">
+      <p><strong>Fuentes</strong> (revisadas el {{actualizado}}): <a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-7296" rel="noopener">Orden PJC/297/2026</a>, artículo 18 (bases y tipos del RETA en 2026); Real Decreto-ley 13/2022 (sistema de cotización por ingresos reales); Ley del Estatuto del Trabajo Autónomo, artículo 38 ter (cuota reducida).</p>
+      <p>Es una estimación: la cuota definitiva la fija la Seguridad Social con tus rendimientos declarados.</p>
+    </div>
+  </article>
+  <aside class="indice">{{toc}}</aside>
+  </div>
+
+  <section class="relacionadas">
+    <h2>Otras calculadoras</h2>
+    <div class="tarjetas tarjetas-3">
+      <a class="tarjeta" href="/calculadora-sueldo-neto/"><h3>Sueldo neto 2026</h3><p>Por si te planteas volver a trabajar por cuenta ajena.</p><span class="tarjeta-cta">Calcular</span></a>
+      <a class="tarjeta" href="/calculadora-paro/"><h3>Paro 2026</h3><p>Y cómo capitalizarlo para emprender.</p><span class="tarjeta-cta">Calcular</span></a>
+      <a class="tarjeta" href="/calculadora-hipoteca/"><h3>Hipoteca</h3><p>Cuota, intereses y cuánto te prestan.</p><span class="tarjeta-cta">Calcular</span></a>
+    </div>
+  </section>
+</div>

@@ -1,6 +1,12 @@
 # AlNeto
 
-Calculadoras de dinero para España (sueldo neto, finiquito, paro y pensiones 2027) con las cifras oficiales de 2026. Web estática pensada para posicionar en Google y monetizar con AdSense.
+Calculadoras de dinero para España con las cifras oficiales de 2026: sueldo neto, subida de sueldo, hipoteca, cuota de autónomos, finiquito, paro y pensiones 2027. Además incluye 59 páginas de «X € brutos: cuánto es neto» y 10 guías. Es una web estática pensada para posicionar en Google y monetizar con AdSense.
+
+**Funciones para crecer:**
+- **Imagen para Stories:** cada resultado se convierte en una imagen vertical con tu dominio. En el móvil se comparte directamente.
+- **Widget incrustable:** la calculadora de sueldo neto se puede poner en otras webs (`/embed/sueldo-neto/`), lo que te da enlaces entrantes.
+- **App instalable que funciona sin conexión** (service worker que siempre pide primero la red).
+- **Enlaces con datos:** las calculadoras aceptan parámetros en la URL, como `?bruto=30000`, útiles para los vídeos.
 
 - Sin dependencias: solo Node 20 o superior.
 - Todos los cálculos se hacen en el navegador, así que nada de lo que escribe el usuario sale de su dispositivo.
@@ -18,7 +24,7 @@ Abre http://localhost:4004 y regenera la web al guardar cualquier cambio en `src
 npm test
 ```
 
-Ejecuta 16 pruebas del motor de cálculo. Comparan con casos publicados, como el salario mínimo con un 3,06 % de retención.
+Ejecuta 22 pruebas del motor de cálculo. Comparan con casos publicados, como el salario mínimo con un 3,06 % de retención.
 
 ```bash
 npm run build
@@ -35,8 +41,11 @@ Genera la web final en `dist/`.
 | `src/static/js/calc/*.js` | Motor de cálculo puro (nómina, finiquito, paro, pensiones) |
 | `src/static/js/pages/*.js` | Conecta cada formulario con su cálculo |
 | `src/pages/**/*.html` | Páginas. Cada una lleva una cabecera `---` con `title`, `description`, `type`, `script`, `updated`… |
-| `src/tablas.mjs` | Tablas de ejemplo que se calculan en el build: `{{tabla:nombre}}` |
-| `src/layout.html` | Plantilla común (cabecera, pie, metaetiquetas) |
+| `src/tablas.mjs` | Tablas y datos que se calculan en el build: `{{tabla:nombre}}` |
+| `src/generadores/*.mjs` | Páginas creadas desde datos (las 59 de sueldos + su índice) |
+| `src/parciales/*.html` | Fragmentos reutilizables: `{{parcial:nombre}}` (la calculadora de sueldo, que comparten la página y el widget) |
+| `src/layout.html` / `src/layout-embed.html` | Plantilla común / plantilla mínima del widget (`layout: embed`) |
+| `src/static/sw.js` | Service worker (uso sin conexión) |
 | `build.mjs` / `serve.mjs` | Generador y servidor de desarrollo |
 
 ## Mantener las cifras al día
@@ -45,8 +54,13 @@ Todo está en `src/static/js/calc/params-2026.js`. Después de tocar algo, ejecu
 
 Fechas que conviene vigilar:
 
+- **Euríbor** (primeros días de cada mes): actualiza `HIPOTECA.euribor` y `euriborMes` con la media oficial del mes anterior (Banco de España).
+- **Tipos medios de hipotecas** (INE, cada mes, con unos 3 meses de retraso): `HIPOTECA.tipoMedioFijo`.
+- **Páginas de sueldo**: cambia `ACTUALIZADO` en `src/generadores/sueldos.mjs` cuando cambien las cifras de nómina.
+
 - **IPC adelantado** (finales de cada mes): actualiza `PENSIONES.ipc` y la página de pensiones. Quedan octubre (~30 oct) y noviembre (~27 nov). Con el de noviembre la subida de 2027 queda casi cerrada, y es oficial a mediados de diciembre.
-- **Enero de 2027**: nueva orden de cotización (base máxima, MEI 2027 y solidaridad), revalorización oficial y nuevo IPREM si hay Presupuestos.
+- **Enero de 2027**: nueva orden de cotización (base máxima, MEI 2027, solidaridad y tramos de autónomos en `AUTONOMOS`), revalorización oficial y nuevo IPREM si hay Presupuestos.
+- **Mayo-junio**: nueva Encuesta de Estructura Salarial del INE (`SALARIOS_INE`).
 - **Salario mínimo de 2027**: se aprueba normalmente entre diciembre y febrero.
 
 ## Antes de publicar
@@ -54,7 +68,7 @@ Fechas que conviene vigilar:
 1. **Dominio propio (obligatorio para AdSense).** AdSense no aprueba subdominios gratuitos como `*.github.io` o `*.pages.dev`. `alneto.es` y `alneto.com` no tenían DNS el 8/10/2026, señal de que podrían estar libres. Si eliges otro, cambia `site.url`.
 2. **Datos legales.** Rellena `titular` y `contacto` en `site.config.mjs`. El aviso legal es obligatorio con publicidad (LSSI). Mientras quede algo `PENDIENTE`, el build avisa y la publicación falla a propósito.
 3. **Sobre mí.** Personaliza `autor.bio`. Google valora saber quién está detrás de una web de dinero.
-4. **Más contenido.** Escribe al menos 10 o 15 guías más antes de pedir AdSense (ver `PLAN-CONTENIDO.md`). Hoy hay 4 calculadoras, 2 guías y las páginas legales.
+4. **Contenido.** Hay 7 calculadoras, 10 guías y 59 páginas de sueldo (83 páginas en el sitemap), suficiente para pedir AdSense. Sigue publicando con el ritmo de `PLAN-CONTENIDO.md`.
 
 ## Publicar (gratis)
 

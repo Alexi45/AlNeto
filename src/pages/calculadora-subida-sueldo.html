@@ -1,0 +1,148 @@
+---
+title: Calculadora de subida de sueldo: cuánto te llega neto | AlNeto
+description: ¿Te suben el sueldo? Calcula cuánto más cobrarás de verdad cada mes después de IRPF y Seguridad Social, y qué parte de la subida se queda Hacienda. Datos de 2026.
+type: calculadora
+script: subida
+breadcrumb: Subida de sueldo
+updated: 2026-10-13
+---
+<section class="cabecera-pagina">
+  <div class="contenedor">
+    <nav class="migas" aria-label="Estás en"><a href="/">Inicio</a> › Subida de sueldo</nav>
+    <header class="intro">
+      <h1>Calculadora de subida de sueldo</h1>
+      <p class="lead">Te suben el sueldo, pero ¿cuánto te llega de verdad? Pon tu sueldo y la subida, y verás cuánto más cobrarás neto cada mes y qué parte se queda Hacienda.</p>
+      <p class="sello"><span>IRPF y cotizaciones de 2026</span><span>Actualizado el {{actualizado}}</span><span>Tus datos no salen de tu navegador</span></p>
+    </header>
+  </div>
+</section>
+
+<div class="contenedor">
+  <div class="calc">
+    <form id="calculadora" class="panel" novalidate>
+      <h2>Tu sueldo y la subida</h2>
+      <div class="campos">
+        <div class="campo campo-ancho">
+          <label for="bruto">Sueldo bruto anual actual</label>
+          <div class="entrada entrada-sufijo" data-sufijo="€"><input id="bruto" name="bruto" type="text" inputmode="decimal" value="30.000" autocomplete="off"></div>
+        </div>
+        <fieldset class="campo">
+          <legend>La subida es de</legend>
+          <div class="segmentos">
+            <label><input type="radio" name="modo" value="euros" checked><span>Euros</span></label>
+            <label><input type="radio" name="modo" value="porcentaje"><span>Porcentaje</span></label>
+          </div>
+        </fieldset>
+        <div class="campo">
+          <label for="subida">Subida bruta al año</label>
+          <div class="entrada entrada-sufijo" id="sufijo-subida" data-sufijo="€"><input id="subida" name="subida" type="text" inputmode="decimal" value="2.000" autocomplete="off"></div>
+        </div>
+        <fieldset class="campo">
+          <legend>Número de pagas</legend>
+          <div class="segmentos">
+            <label><input type="radio" name="pagas" value="14" checked><span>14</span></label>
+            <label><input type="radio" name="pagas" value="12"><span>12</span></label>
+          </div>
+        </fieldset>
+        <div class="campo">
+          <label for="hijos">Hijos menores de 25</label>
+          <select id="hijos" name="hijos">
+            <option value="0">Ninguno</option><option value="1">1</option><option value="2">2</option><option value="3">3 o más</option>
+          </select>
+        </div>
+        <div class="campo campo-ancho">
+          <label for="situacion">Situación familiar</label>
+          <select id="situacion" name="situacion">
+            <option value="3">Soltero/a, o en pareja y los dos con ingresos</option>
+            <option value="2">Casado/a, y mi cónyuge gana menos de 1.500 € al año</option>
+            <option value="1">Familia monoparental</option>
+          </select>
+        </div>
+      </div>
+    </form>
+
+    <div id="resultado" class="resultado" aria-live="polite">
+      <a class="resumen-movil escondido" href="#resultado" aria-hidden="true" tabindex="-1"><span>Te llegan al mes</span><strong data-out="masMes">—</strong></a>
+      <div class="resultado-principal">
+        <p class="etiqueta">Cobrarás de verdad</p>
+        <p class="cifra" data-out="masMes">—</p>
+        <p class="detalle"><span data-out="pagasTexto">más al mes (14 pagas)</span> · <strong data-out="masAnio">—</strong> al año</p>
+      </div>
+      <div class="panel">
+        <div class="barra" aria-hidden="true"><span class="b-neto" id="b-neto"></span><span class="b-irpf" id="b-irpf"></span></div>
+        <ul class="desglose">
+          <li><span>Subida bruta</span><span data-out="subidaBruta">—</span></li>
+          <li><span><i class="punto" style="background:var(--irpf)"></i>Se va en IRPF y Seguridad Social</span><span data-out="hacienda">—</span></li>
+          <li class="total"><span><i class="punto" style="background:var(--marca)"></i>Te llega</span><span data-out="llega">—</span></li>
+        </ul>
+        <ul class="desglose">
+          <li><span>Nuevo sueldo bruto</span><span data-out="nuevoBruto">—</span></li>
+          <li><span>Neto al mes antes</span><span data-out="antes">—</span></li>
+          <li><span>Neto al mes después</span><span data-out="despues">—</span></li>
+          <li><span>Retención IRPF antes → después</span><span><span data-out="irpfAntes">—</span> → <span data-out="irpfDespues">—</span></span></li>
+        </ul>
+      </div>
+      <p class="nota nota-ok oculto" id="nota-tramo">Con la subida entras en un tramo más alto del IRPF. Tranquilo: el tipo más alto solo se aplica a la parte que supera el tramo, nunca cobras menos neto por ganar más bruto.</p>
+      <div class="compartir">
+        <button type="button" class="boton" id="compartir">Compartir este cálculo</button>
+        <button type="button" class="boton" id="imagen">Imagen para Stories</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="articulo-rejilla">
+  <article class="prosa">
+    <h2>Por qué no te llega toda la subida</h2>
+    <p>Cada euro de subida bruta paga dos cosas antes de llegar a tu cuenta:</p>
+    <ul>
+      <li><strong>Seguridad Social</strong>: un 6,50 % con contrato indefinido, hasta la base máxima de 5.101,20 € al mes.</li>
+      <li><strong>IRPF</strong>: aquí está la clave. Tu retención media puede ser del 16 %, pero cada euro nuevo tributa a tu <strong>tipo marginal</strong>: el del tramo de la escala en el que cae. Con sueldos medios es el 30 %, y a partir de unos 40.000 € el 37 %.</li>
+    </ul>
+    <p>Por eso una subida de 2.000 € brutos se queda en bastante menos en tu bolsillo:</p>
+    {{tabla:subida-ejemplos}}
+
+    <h2>¿Puedo cobrar menos por subir de tramo?</h2>
+    <p><strong>No.</strong> Es el mito fiscal más extendido. El IRPF es progresivo por tramos: el tipo más alto solo se aplica a la parte del sueldo que entra en ese tramo, no a todo. Ganar más bruto siempre significa cobrar más neto.</p>
+    <p>Lo que sí puede pasar es que la empresa <strong>recalcule tu retención</strong> el mes de la subida y la aplique de golpe a los meses que quedan del año. Esa nómina puede salir rara, pero al final del año cobras más. Y donde una subida sí puede salirte cara es en <strong>ayudas que dependen de tus ingresos</strong> (becas, bono social, ayudas al alquiler…), que tienen sus propios límites.</p>
+
+    <h2>Las zonas donde más «duele» una subida</h2>
+    <ul>
+      <li><strong>Entre unos 15.900 € y 21.100 € brutos</strong>: se pierde poco a poco la reducción por rendimientos del trabajo, así que cada euro extra hace subir mucho la retención. Aun así, sigues ganando más.</li>
+      <li><strong>Por encima de 35.200 €</strong> de base, el tramo pasa del 30 % al 37 %, y por encima de 60.000 €, al 45 %.</li>
+      <li><strong>Por encima de 61.214 € brutos</strong> casi dejas de cotizar más a la Seguridad Social (solo pagas una pequeña cuota de solidaridad por encima del tope), así que de cada subida te llega algo más.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <div class="faq">
+      <details>
+        <summary>¿Cuándo se nota la subida en la nómina?</summary>
+        <div><p>Desde el mes en que la empresa la aplica. Si es con efectos retroactivos, cobrarás los atrasos en una nómina posterior, normalmente con su retención de IRPF ya recalculada.</p></div>
+      </details>
+      <details>
+        <summary>¿Me compensa más una subida o un plus en especie?</summary>
+        <div><p>Algunas retribuciones en especie tienen ventajas fiscales: el seguro médico (hasta 500 € al año por persona), los tickets de comida (hasta 11 € al día) o el transporte (hasta 1.500 € al año) no tributan dentro de esos límites. Por cada euro que cobras así, te llega el euro entero.</p></div>
+      </details>
+      <details>
+        <summary>¿Y si me suben un porcentaje?</summary>
+        <div><p>Elige «Porcentaje» en la calculadora y pon la subida. Por ejemplo, un 3 % sobre 30.000 € son 900 € brutos más al año.</p></div>
+      </details>
+    </div>
+
+    {{autoria}}
+
+    <div class="fuentes">
+      <p><strong>Cómo está calculado:</strong> el mismo motor de la <a href="/calculadora-sueldo-neto/">calculadora de sueldo neto</a> (algoritmo de retenciones de la Agencia Tributaria y cotizaciones de 2026), aplicado antes y después de la subida.</p>
+    </div>
+  </article>
+  <aside class="indice">{{toc}}</aside>
+  </div>
+
+  <section class="relacionadas">
+    <h2>Otras calculadoras</h2>
+    <div class="tarjetas tarjetas-3">
+      <a class="tarjeta" href="/calculadora-sueldo-neto/"><h3>Sueldo neto 2026</h3><p>De bruto a neto con el IRPF y la Seguridad Social.</p><span class="tarjeta-cta">Calcular</span></a>
+      <a class="tarjeta" href="/sueldo-neto/"><h3>Tabla de sueldos</h3><p>El neto de cada sueldo bruto, de 14.000 a 150.000 €.</p><span class="tarjeta-cta">Ver la tabla</span></a>
+      <a class="tarjeta" href="/calculadora-hipoteca/"><h3>Hipoteca</h3><p>Cuota, intereses y cuánto te prestan con tu sueldo.</p><span class="tarjeta-cta">Calcular</span></a>
+    </div>
+  </section>
+</div>
