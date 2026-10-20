@@ -11,6 +11,9 @@ const actualizar = () => {
   if (!valido) return pintar(form, { neto: VACIO, irpf: VACIO, ss: VACIO, anual: VACIO });
 
   const r = calcularNomina({ brutoAnual: bruto, pagas: Number(form.elements.pagas.value) });
+  document.getElementById('mb-neto').style.flexGrow = r.netoAnual;
+  document.getElementById('mb-irpf').style.flexGrow = r.irpf.anual;
+  document.getElementById('mb-ss').style.flexGrow = r.ss.anual;
   pintar(form, {
     neto: eur(r.netoMensual),
     irpf: pct(r.irpf.tipo),

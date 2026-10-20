@@ -3,7 +3,7 @@ title: AlNeto: calculadoras de sueldo, finiquito, paro y pensiones
 description: Calculadoras gratuitas para España con las cifras oficiales de 2026: sueldo neto, finiquito e indemnización, paro y subida de las pensiones en 2027. Sin registro.
 type: home
 script: inicio
-updated: 2026-10-13
+updated: 2026-10-20
 ---
 <section class="hero">
   <div class="contenedor hero-rejilla">
@@ -17,6 +17,7 @@ updated: 2026-10-13
       </div>
       <ul class="hero-confianza">
         <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg>Datos del BOE y la Agencia Tributaria</li>
+        <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg><a class="enlace-claro" href="/metodologia/">Comprobado con {{tabla:num-casos}} casos oficiales</a></li>
         <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg>Sin registro</li>
         <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7"/></svg>Tus datos no salen del navegador</li>
       </ul>
@@ -43,11 +44,12 @@ updated: 2026-10-13
       <div class="mini-resultado" aria-live="polite">
         <p class="mini-etiqueta">Te llegan cada mes</p>
         <p class="mini-cifra" data-out="neto">{{tabla:neto-30000}}</p>
+        <div class="mini-barra" aria-hidden="true"><span id="mb-neto" style="background:var(--serie-1);flex-grow:23124"></span><span id="mb-irpf" style="background:var(--serie-2);flex-grow:4926"></span><span id="mb-ss" style="background:var(--serie-3);flex-grow:1950"></span></div>
       </div>
       <dl class="mini-datos">
-        <div class="mini-dato"><dt>Retención IRPF</dt><dd data-out="irpf">{{tabla:irpf-30000}}</dd></div>
-        <div class="mini-dato"><dt>Seg. Social/mes</dt><dd data-out="ss">{{tabla:ss-30000}}</dd></div>
-        <div class="mini-dato"><dt>Neto al año</dt><dd data-out="anual">{{tabla:anual-30000}}</dd></div>
+        <div class="mini-dato"><dt><i style="background:var(--serie-2)"></i>Retención IRPF</dt><dd data-out="irpf">{{tabla:irpf-30000}}</dd></div>
+        <div class="mini-dato"><dt><i style="background:var(--serie-3)"></i>Seg. Social/mes</dt><dd data-out="ss">{{tabla:ss-30000}}</dd></div>
+        <div class="mini-dato"><dt><i style="background:var(--serie-1)"></i>Neto al año</dt><dd data-out="anual">{{tabla:anual-30000}}</dd></div>
       </dl>
       <a class="boton boton-primario" id="mini-enlace" href="/calculadora-sueldo-neto/">Ver el desglose completo →</a>
     </form>
@@ -59,6 +61,17 @@ updated: 2026-10-13
     Calculado con datos oficiales de <span>BOE</span><span>Agencia Tributaria</span><span>Seguridad Social</span><span>SEPE</span><span>INE</span>
   </div>
 </div>
+
+<section class="seccion seccion-datos" aria-labelledby="titulo-datos">
+  <div class="contenedor">
+    <div class="seccion-cabecera">
+      <span class="antetitulo">Datos oficiales</span>
+      <h2 id="titulo-datos">Las cifras de 2026, al día</h2>
+      <p>Lo que usan nuestras calculadoras ahora mismo, con su fuente y su fecha. <a href="/metodologia/">Ver todos los datos y cómo los comprobamos</a>.</p>
+    </div>
+    {{tabla:panel-datos}}
+  </div>
+</section>
 
 <section class="seccion" id="calculadoras">
   <div class="contenedor">

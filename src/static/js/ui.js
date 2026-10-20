@@ -23,18 +23,44 @@ export const entero = (texto, min, max) => {
   return Number.isFinite(n) ? Math.min(Math.max(n, min), max) : min;
 };
 
-// Escribe cada valor en los elementos [data-out]. Las cifras grandes (.cifra) hacen un
-// pequeño destello al cambiar para que se note que el resultado se ha actualizado.
+// Escribe cada valor en los elementos [data-out]. Las cifras grandes (.cifra, .mini-cifra)
+// cuentan hasta el valor nuevo en ~0,4 s (sin animación si se prefiere reducir movimiento).
+const sinMovimiento = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+const animaciones = new WeakMap();
+
+const NUMERO = /(\d{1,3}(?:\.\d{3})+|\d+)(?:,(\d+))?/;
+const leerNumero = (texto) => {
+  const m = String(texto).match(NUMERO);
+  if (!m) return null;
+  return { valor: Number(m[1].replace(/\./g, '') + (m[2] ? `.${m[2]}` : '')), decimales: m[2]?.length ?? 0, antes: texto.slice(0, m.index), despues: texto.slice(m.index + m[0].length) };
+};
+
+const animarCifra = (el, destino) => {
+  cancelAnimationFrame(animaciones.get(el));
+  const inicio = leerNumero(el.textContent);
+  const fin = leerNumero(destino);
+  if (sinMovimiento || !inicio || !fin || inicio.valor === fin.valor || Math.abs(fin.valor - inicio.valor) > 1e7) {
+    el.textContent = destino;
+    return;
+  }
+  const formato = new Intl.NumberFormat('es-ES', { minimumFractionDigits: fin.decimales, maximumFractionDigits: fin.decimales, useGrouping: 'always' });
+  const t0 = performance.now();
+  const paso = (t) => {
+    const k = Math.min((t - t0) / 380, 1);
+    const suave = 1 - (1 - k) ** 3;
+    el.textContent = k < 1 ? `${fin.antes}${formato.format(inicio.valor + (fin.valor - inicio.valor) * suave)}${fin.despues}` : destino;
+    if (k < 1) animaciones.set(el, requestAnimationFrame(paso));
+  };
+  animaciones.set(el, requestAnimationFrame(paso));
+};
+
 export const pintar = (raiz, valores) => {
   for (const [clave, valor] of Object.entries(valores)) {
     raiz.querySelectorAll(`[data-out="${clave}"]`).forEach((el) => {
-      if (el.textContent === String(valor)) return;
-      el.textContent = valor;
-      if (el.classList.contains('cifra') || el.classList.contains('mini-cifra')) {
-        el.classList.remove('destello');
-        void el.offsetWidth;
-        el.classList.add('destello');
-      }
+      const texto = String(valor);
+      if (el.textContent === texto) return;
+      if (el.classList.contains('cifra') || el.classList.contains('mini-cifra')) animarCifra(el, texto);
+      else el.textContent = texto;
     });
   }
 };

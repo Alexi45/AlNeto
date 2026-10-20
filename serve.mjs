@@ -5,9 +5,16 @@ import { readFile, stat } from 'node:fs/promises';
 import { watch } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execFile } from 'node:child_process';
 
-// Se importa de nuevo en cada cambio para que también se apliquen los cambios de build.mjs.
-const build = async (opciones) => (await import(`./build.mjs?t=${Date.now()}`)).build(opciones);
+// Cada build se lanza en un proceso nuevo: así se recargan todos los módulos (también los
+// que importan los generadores y las tablas) y nunca se sirve código en caché.
+const build = () => new Promise((ok, mal) => {
+  execFile(process.execPath, [path.join(path.dirname(fileURLToPath(import.meta.url)), 'build.mjs')], (error, salida, errores) => {
+    if (error) return mal(new Error((errores || salida || error.message).trim()));
+    ok(salida);
+  });
+});
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.join(ROOT, 'dist');
@@ -28,12 +35,12 @@ const TIPOS = {
 
 const existe = async (f) => (await stat(f).catch(() => null))?.isFile();
 
-await build();
+console.log((await build()).trim());
 
 let pendiente = null;
 const reconstruir = () => {
   clearTimeout(pendiente);
-  pendiente = setTimeout(() => build({ silencioso: true }).then(
+  pendiente = setTimeout(() => build().then(
     () => console.log('↻ regenerado', new Date().toLocaleTimeString('es-ES')),
     (e) => console.error('✖', e.message),
   ), 120);

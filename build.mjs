@@ -106,6 +106,7 @@ export async function build({ silencioso = false } = {}) {
 
   const avisos = new Set();
   const sitemap = [];
+  const indiceBusqueda = [];
   const paginas = [];
   for (const rel of await listarPaginas(path.join(SRC, 'pages'))) {
     paginas.push({ rel, raw: await readFile(path.join(SRC, 'pages', rel), 'utf8') });
@@ -194,13 +195,14 @@ export async function build({ silencioso = false } = {}) {
       robots: meta.noindex === 'true' ? 'noindex, follow' : 'index, follow, max-image-preview:large',
       ogType: tipo === 'articulo' ? 'article' : 'website',
       css: `/css/style.css?v=${versionCss}`,
+      versionJs,
       scripts: meta.script ? `<script type="module" src="/js/pages/${meta.script}.js?v=${versionJs}"></script>` : '',
       adsense,
       jsonld,
       toc: '%%INDICE%%',
       autoria: `<div class="autoria"><div class="autoria-avatar" aria-hidden="true">${iniciales}</div><div>`
         + `<p class="autoria-nombre">${tipo === 'articulo' ? 'Escrito' : 'Revisado'} por <a href="/sobre-mi/">${config.autor.nombre}</a></p>`
-        + `<p class="autoria-meta">Actualizado el ${fechaHumana(actualizado)} · Cifras contrastadas con la normativa oficial</p></div></div>`,
+        + `<p class="autoria-meta">Actualizado el ${fechaHumana(actualizado)} · <a href="/metodologia/${meta.metodo ? `#${meta.metodo}` : ''}">Cómo lo calculamos</a> · <a href="/contacto/">¿Ves un error? Avísame</a></p></div></div>`,
     };
 
     const sustituir = (texto) =>
@@ -241,7 +243,12 @@ export async function build({ silencioso = false } = {}) {
     await mkdir(path.dirname(destino), { recursive: true });
     await writeFile(destino, html);
 
-    if (meta.noindex !== 'true' && url !== '/404.html') sitemap.push({ loc: base + url, lastmod: actualizado, prioridad: tipo });
+    if (meta.noindex !== 'true' && url !== '/404.html') {
+      sitemap.push({ loc: base + url, lastmod: actualizado, prioridad: tipo });
+      const grupo = { calculadora: 'Calculadora', articulo: 'Guía', dato: 'Sueldo', home: 'Inicio' }[tipo] || 'Página';
+      const t = meta.title.replace(/\s*\|\s*AlNeto$/, '').replace(/^AlNeto:\s*/, '');
+      indiceBusqueda.push({ t: t.charAt(0).toUpperCase() + t.slice(1), d: meta.description, u: url, g: grupo });
+    }
   }
 
   const orden = { home: 0, calculadora: 1, articulo: 2 };
@@ -254,14 +261,25 @@ export async function build({ silencioso = false } = {}) {
   );
   const host = new URL(base).hostname;
   if (!host.endsWith('github.io')) await writeFile(path.join(OUT, 'CNAME'), host + '\n');
+  // Índice del buscador: se descarga solo al abrirlo y se busca en el propio navegador
+  await writeFile(path.join(OUT, 'buscar.json'), JSON.stringify(indiceBusqueda));
   await writeFile(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${base}/sitemap.xml\n`);
   if (config.adsense.client) {
     const pub = config.adsense.client.replace(/^ca-/, '');
     await writeFile(path.join(OUT, 'ads.txt'), `google.com, ${pub}, DIRECT, f08c47fec0942fa0\n`);
   }
 
-  await rm(FINAL, { recursive: true, force: true });
-  await rename(OUT, FINAL);
+  // Cambio casi atómico: se aparta la versión anterior y se coloca la nueva. Si otro build
+  // simultáneo se ha adelantado, se sustituye su resultado por este.
+  const papelera = `${FINAL}-viejo-${process.pid}-${Date.now()}`;
+  await rename(FINAL, papelera).catch(() => {});
+  try {
+    await rename(OUT, FINAL);
+  } catch {
+    await rm(FINAL, { recursive: true, force: true });
+    await rename(OUT, FINAL);
+  }
+  await rm(papelera, { recursive: true, force: true });
 
   if (!silencioso) {
     console.log(`✔ ${paginas.length} páginas generadas en dist/`);

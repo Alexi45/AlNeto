@@ -6,6 +6,8 @@ import { indemnizacion } from './static/js/calc/finiquito.js';
 import { compararSueldos } from './static/js/calc/subida.js';
 import { cuotaFrancesa, capitalParaCuota } from './static/js/calc/hipoteca.js';
 import { HIPOTECA, AUTONOMOS } from './static/js/calc/params-2026.js';
+import { DATOS, fechaLarga } from './datos-oficiales.mjs';
+import { CASOS } from './generadores/confianza.mjs';
 import { fecha } from './static/js/calc/util.js';
 import { calcularPension, pensionMaxima2027 } from './static/js/calc/pensiones.js';
 import { SS, IRPF, PARO, PENSIONES } from './static/js/calc/params-2026.js';
@@ -175,6 +177,14 @@ export const tablas = {
       }),
       'Tipo fijo del 2,90 % TIN. Ingresos netos de todos los titulares. Sin otras deudas.',
     ),
+
+  // Panel de cifras oficiales de la portada
+  'panel-datos': () => `<div class="panel-datos">${DATOS.filter((d) => d.portada).map((d) => `<div class="dato">
+      <span class="dato-nombre">${d.dato}</span>
+      <span class="dato-valor">${d.valor}</span>
+      <span class="dato-fuente"><svg class="ok" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9"/><path d="M6 10.4l2.6 2.6L14 7.4"/></svg>${d.fuente} · ${fechaLarga(d.fecha)}</span>
+    </div>`).join('')}</div>`,
+  'num-casos': () => String(CASOS.length),
 
   'nomina-ejemplos': () =>
     tabla(

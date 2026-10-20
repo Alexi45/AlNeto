@@ -3,6 +3,7 @@
 // explica su caso concreto (tramo, límites, deducciones), no solo cambia la cifra.
 import { calcularNomina } from '../static/js/calc/nomina.js';
 import { SMI, SALARIOS_INE, SS } from '../static/js/calc/params-2026.js';
+import { graficoLinea } from '../static/js/graficos.js';
 
 export const SUELDOS = [
   ...Array.from({ length: 37 }, (_, i) => 14000 + i * 1000), // 14.000 – 50.000
@@ -10,7 +11,7 @@ export const SUELDOS = [
   85000, 90000, 95000, 100000, 120000, 150000,
 ];
 
-const ACTUALIZADO = '2026-10-13';
+const ACTUALIZADO = '2026-10-20';
 const HORAS_ANUALES = 1790; // 40 h semanales descontando vacaciones y festivos (aprox.)
 
 const fmt = (n, d = 2) => new Intl.NumberFormat('es-ES', { minimumFractionDigits: d, maximumFractionDigits: d, useGrouping: 'always' }).format(n);
@@ -18,6 +19,32 @@ const eur = (n, d = 2) => `${fmt(n, d)} €`;
 const pct = (n, d = 2) => `${fmt(n, d)} %`;
 const miles = (n) => fmt(n, 0);
 export const slugSueldo = (b) => `/sueldo-neto/${b}-euros-brutos/`;
+
+// Curva «de cada euro bruto, cuántos céntimos te quedan» con un sueldo destacado.
+const curvaCentimos = (destacado) => {
+  const tope = Math.max(100000, destacado ?? 0);
+  const puntos = SUELDOS.filter((x) => x <= tope).map((x) => {
+    const r = calcularNomina({ brutoAnual: x, pagas: 14 });
+    const y = (r.netoAnual / x) * 100;
+    return { x, y, tx: `${eur(x, 0)} brutos al año`, ty: `${fmt(y, 1)} céntimos de cada euro` };
+  });
+  const marca = destacado ? puntos.find((p) => p.x === destacado) : null;
+  return graficoLinea({
+    id: 'grafico-centimos',
+    titulo: 'De cada euro bruto, cuántos céntimos te quedan',
+    subtitulo: 'Sueldo neto ÷ sueldo bruto, según el sueldo anual (2026)',
+    nota: 'Soltero/a sin hijos con contrato indefinido. La curva baja porque el IRPF es progresivo; se aplana al superar el tope de cotización.',
+    puntos,
+    destacado: marca,
+    etiquetaDestacado: marca ? `${eur(destacado, 0)}: ${fmt(marca.y, 0)} céntimos` : '',
+    yMin: 50,
+    yMax: 100,
+    nTicksY: 5,
+    formatoY: (t) => `${fmt(t, 0)} cts`,
+    formatoX: (x) => `${fmt(x / 1000, 0)} mil €`,
+    ticksX: [20000, 40000, 60000, 80000, 100000, ...(tope > 100000 ? [tope] : [])],
+  });
+};
 
 const tabla = (cab, filas, pie = '') => `<div class="tabla-envoltura"><table>
   <thead><tr>${cab.map((c, i) => `<th${i ? ' class="n"' : ''}>${c}</th>`).join('')}</tr></thead>
@@ -88,6 +115,8 @@ function pagina(b, i) {
 title: ${titulo}
 description: Con ${eur(b, 0)} brutos al año cobras ${eur(r14.netoMensual)} netos al mes en 14 pagas (${eur(r12.netoMensual)} en 12). Desglose de IRPF y Seguridad Social de 2026 y cómo cambia con hijos.
 type: dato
+script: graficos
+metodo: sueldo-neto
 breadcrumb: ${eur(b, 0)} brutos
 parent: Sueldo neto|/sueldo-neto/
 updated: ${ACTUALIZADO}
@@ -122,6 +151,7 @@ updated: ${ACTUALIZADO}
       ['<strong>Sueldo neto</strong>', `<strong>${eur(r14.netoAnual)}</strong>`, `<strong>${eur(r14.netoMensual)}</strong>`, `<strong>${eur(r12.netoMensual)}</strong>`],
     ], 'Contrato indefinido, soltero/a sin hijos y menor de 65 años. En 14 pagas, las pagas extra de junio y diciembre solo llevan IRPF.')}
     <p>De cada euro bruto te quedas unos <strong>${centimos} céntimos</strong>. Equivale a ${eur(brutoMes14)} brutos al mes en 14 pagas o ${eur(brutoMes12)} en 12, y a unos ${eur(b / HORAS_ANUALES)} brutos (${eur(r14.netoAnual / HORAS_ANUALES)} netos) por hora con jornada completa.</p>
+    ${curvaCentimos(b)}
     ${notas.join('\n    ')}
 
     <h2>Si te suben 1.000 € al año</h2>
@@ -197,6 +227,7 @@ function indice() {
 title: Tabla de sueldo neto 2026: de bruto a neto | AlNeto
 description: Tabla con el sueldo neto de 2026 para cada sueldo bruto, de ${miles(SUELDOS[0])} a ${miles(SUELDOS.at(-1))} € al año y de 1.200 a 5.000 € al mes, con la retención de IRPF de cada uno.
 type: dato
+script: graficos
 breadcrumb: Sueldo neto
 updated: ${ACTUALIZADO}
 ---
@@ -214,6 +245,9 @@ updated: ${ACTUALIZADO}
 <div class="contenedor">
   <div class="articulo-rejilla">
   <article class="prosa">
+    <h2>Cuánto te queda de cada euro</h2>
+    ${curvaCentimos(null)}
+
     <h2>Sueldo neto según el bruto anual</h2>
     ${tabla(['Bruto anual', 'Neto al mes (14 pagas)', 'Neto al mes (12 pagas)', 'Retención', 'Neto al año'], filas, 'Contrato indefinido, soltero/a sin hijos y menor de 65 años.')}
 

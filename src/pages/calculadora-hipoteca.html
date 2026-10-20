@@ -2,6 +2,7 @@
 title: Calculadora de hipoteca 2026: cuota, intereses y Euríbor | AlNeto
 description: Calcula la cuota de tu hipoteca fija o variable con el Euríbor actual, los intereses totales, la tabla de amortización y cuánto te prestarían con tu sueldo.
 type: calculadora
+metodo: hipoteca
 script: hipoteca
 breadcrumb: Hipoteca
 updated: 2026-10-13
@@ -75,15 +76,18 @@ updated: 2026-10-13
         <ul class="desglose">
           <li><span>Impuestos y gastos de compra (aprox.)</span><span data-out="gastos">—</span></li>
           <li><span>Ahorro recomendado (20 % + gastos)</span><span data-out="ahorroNecesario">—</span></li>
-          <li id="linea-esfuerzo" class="oculto"><span>La cuota supone de tus ingresos</span><span data-out="esfuerzo">—</span></li>
           <li id="linea-maximo" class="oculto"><span>Préstamo máximo con tus ingresos</span><span data-out="capitalMaximo">—</span></li>
         </ul>
+        <div class="medidor oculto" id="medidor-esfuerzo" data-estado="bien">
+          <div class="medidor-cabecera"><span>La cuota supone de tus ingresos</span><strong data-out="esfuerzo">—</strong></div>
+          <div class="medidor-pista" aria-hidden="true"><span class="medidor-relleno" id="medidor-relleno"></span><span class="medidor-limite" style="left:70%"></span></div>
+          <p class="medidor-estado" id="medidor-estado"></p>
+        </div>
       </div>
       <div class="panel oculto" id="bloque-escenarios">
         <h2>Si el Euríbor cambia</h2>
         <div class="tabla-envoltura" style="margin:0"><table><tbody id="escenarios"></tbody></table></div>
       </div>
-      <p class="nota oculto" id="nota-esfuerzo">La cuota pasa del 35 % de tus ingresos: la mayoría de bancos no la concederían, y lo recomendable es no superar el 30-35 %.</p>
       <p class="nota oculto" id="nota-financiacion">Pides más del 80 % del precio. Los bancos suelen financiar como mucho el 80 % de la vivienda habitual, salvo programas de aval para jóvenes.</p>
       <div class="compartir">
         <button type="button" class="boton" id="compartir">Compartir este cálculo</button>
@@ -92,8 +96,10 @@ updated: 2026-10-13
     </div>
   </div>
 
+  <div id="grafico-anual"></div>
+
   <details class="panel amortizacion">
-    <summary><strong>Tabla de amortización año a año</strong></summary>
+    <summary><strong>Tabla de amortización año a año</strong> <span style="font-weight:400;color:var(--tinta-tenue)">(los mismos datos que el gráfico)</span></summary>
     <div class="tabla-envoltura">
       <table>
         <thead><tr><th>Año</th><th class="n">Capital devuelto</th><th class="n">Intereses</th><th class="n">Deuda pendiente</th></tr></thead>

@@ -2,6 +2,15 @@
 
 Calculadoras de dinero para España con las cifras oficiales de 2026: sueldo neto, subida de sueldo, hipoteca, cuota de autónomos, finiquito, paro y pensiones 2027. Además incluye 59 páginas de «X € brutos: cuánto es neto» y 10 guías. Es una web estática pensada para posicionar en Google y monetizar con AdSense.
 
+**Fiabilidad:**
+- **Página `/metodologia/`** con 12 casos de control (motor frente a valor oficial) que se recalculan en cada build: si alguno no coincide, el build falla y no se publica. También están en `npm test`.
+- **Registro de datos oficiales** (`src/datos-oficiales.mjs`) con valor, fuente y fecha. Alimenta el panel de la portada y la metodología.
+- **Historial público** `/actualizaciones/` (`src/actualizaciones.mjs`) con las próximas revisiones previstas.
+
+**Diseño:**
+- Gráficos SVG propios (`src/static/js/graficos.js`) con colores validados para daltonismo y contraste en claro y oscuro. Se redibujan al ancho real de cada pantalla y tienen tooltip con ratón, dedo y teclado.
+- Modo oscuro con interruptor, buscador ⌘K local (`/buscar.json`), cifras animadas y apariciones al hacer scroll en CSS puro.
+
 **Funciones para crecer:**
 - **Imagen para Stories:** cada resultado se convierte en una imagen vertical con tu dominio. En el móvil se comparte directamente.
 - **Widget incrustable:** la calculadora de sueldo neto se puede poner en otras webs (`/embed/sueldo-neto/`), lo que te da enlaces entrantes.
@@ -24,7 +33,7 @@ Abre http://localhost:4004 y regenera la web al guardar cualquier cambio en `src
 npm test
 ```
 
-Ejecuta 22 pruebas del motor de cálculo. Comparan con casos publicados, como el salario mínimo con un 3,06 % de retención.
+Ejecuta 35 pruebas: el motor de cálculo y los 12 casos de control de la metodología. Comparan con casos publicados, como el salario mínimo con un 3,06 % de retención.
 
 ```bash
 npm run build
@@ -46,11 +55,19 @@ Genera la web final en `dist/`.
 | `src/parciales/*.html` | Fragmentos reutilizables: `{{parcial:nombre}}` (la calculadora de sueldo, que comparten la página y el widget) |
 | `src/layout.html` / `src/layout-embed.html` | Plantilla común / plantilla mínima del widget (`layout: embed`) |
 | `src/static/sw.js` | Service worker (uso sin conexión) |
+| `src/static/js/graficos.js` | Gráficos de línea y columnas apiladas (build y navegador) |
+| `src/static/js/buscador.js` | Buscador ⌘K |
+| `src/datos-oficiales.mjs` / `src/actualizaciones.mjs` | Datos oficiales con su fuente e historial de cambios |
+| `src/generadores/confianza.mjs` | Metodología (con los casos de control) y actualizaciones |
 | `build.mjs` / `serve.mjs` | Generador y servidor de desarrollo |
 
 ## Mantener las cifras al día
 
-Todo está en `src/static/js/calc/params-2026.js`. Después de tocar algo, ejecuta `npm test` y cambia el `updated:` de las páginas afectadas: esa fecha se muestra al usuario y se envía a Google en el sitemap.
+Todo está en `src/static/js/calc/params-2026.js`. Después de tocar algo:
+1. Ejecuta `npm test`.
+2. Cambia el `updated:` de las páginas afectadas: esa fecha se muestra al usuario y se envía a Google en el sitemap.
+3. Si cambia la fecha o la fuente de un dato, actualízala en `src/datos-oficiales.mjs`.
+4. Añade una entrada al principio de `src/actualizaciones.mjs`.
 
 Fechas que conviene vigilar:
 

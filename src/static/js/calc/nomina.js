@@ -1,7 +1,7 @@
 import { SS, IRPF, SMI } from './params-2026.js';
 import { redondear } from './util.js';
 
-const cuotaEscala = (base) => {
+export const cuotaEscala = (base) => {
   let cuota = 0;
   let desde = 0;
   for (const { hasta, tipo } of IRPF.escala) {
